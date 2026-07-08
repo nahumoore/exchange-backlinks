@@ -7,11 +7,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@opennextjs/cloudflare": "^1.20.1",
     "@tabler/icons-react": "^3.44.0",
     "@workspace/ui": "workspace:*",
     "next": "16.2.6",
@@ -27,6 +31,7 @@
     "@workspace/eslint-config": "workspace:^",
     "@workspace/typescript-config": "workspace:*",
     "eslint": "^9",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.107.1"
   }
 }

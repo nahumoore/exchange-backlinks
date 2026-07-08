@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Submit your site — Backlinks Exchange",
+  title: "Submit your site — Exchange Backlinks",
 }
 
 export default function SubmitPage() {

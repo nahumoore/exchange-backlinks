@@ -2,23 +2,31 @@ import Link from "next/link"
 import { IconArrowRight } from "@tabler/icons-react"
 
 import { Button } from "@workspace/ui/components/button"
-import { ExchangeTicker } from "@/components/exchange-ticker"
+import { NicheCarousel } from "@/components/niche-carousel"
+import {
+  IllustrationDigest,
+  IllustrationExchange,
+  IllustrationSubmit,
+} from "@/components/step-illustrations"
 
 const STEPS = [
   {
     number: "1",
     title: "Submit your site",
-    body: "Tell us your domain and the B2B niche you publish in. That's the whole ask.",
+    body: "Tell us your domain and the B2B niche you publish in. Your URL stays hidden — always — until both sides agree to collaborate.",
+    illustration: <IllustrationSubmit />,
   },
   {
     number: "2",
-    title: "Get a weekly intro email",
-    body: "Once a week, we send one email listing your site to other members in your niche — and theirs to you.",
+    title: "Receive relevant sites in your niche",
+    body: "Once a week, we send one email with sites matched to your B2B niche — described by niche and profile, URLs still hidden.",
+    illustration: <IllustrationDigest />,
   },
   {
     number: "3",
-    title: "Arrange the swap together",
-    body: "You and the other member discuss how and where each link gets placed. 100% freedom — no middleman, no rules on placement.",
+    title: "Both agree, URLs revealed",
+    body: "Once both parties agree to the exchange, URLs are revealed and you talk directly — how and where each link lands is 100% up to you.",
+    illustration: <IllustrationExchange />,
   },
 ]
 
@@ -37,31 +45,15 @@ const RULES = [
   },
 ]
 
-function AnchorSnippet({ label, domain }: { label: string; domain: string }) {
-  return (
-    <div className="min-w-0">
-      <div className="text-muted-foreground mb-2 text-[0.7rem] tracking-widest uppercase">
-        {label}
-      </div>
-      <code className="text-muted-foreground block truncate text-sm sm:text-base">
-        {'<a href="'}
-        <span className="text-foreground font-semibold">{domain}</span>
-        {'">'}
-      </code>
-    </div>
-  )
-}
-
 export default function Page() {
   return (
     <div className="flex min-h-svh flex-col">
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-5">
         <Link href="/" className="font-mono text-sm font-medium tracking-tight">
-          backlinks<span className="text-primary">.</span>exchange
+          exchange<span className="text-primary">-</span>backlinks.com
         </Link>
         <Button
           size="sm"
-          variant="outline"
           nativeButton={false}
           render={<Link href="/submit" />}
         >
@@ -101,22 +93,9 @@ export default function Page() {
             </span>
           </div>
 
-          {/* Signature: the anchor-tag exchange */}
-          <div className="border-border mt-16 rounded-xl border font-mono">
-            <div className="grid grid-cols-1 items-center gap-6 p-6 sm:grid-cols-[1fr_auto_1fr] sm:gap-8 sm:p-8">
-              <AnchorSnippet label="on their site" domain="yoursite.com" />
-              <div
-                aria-hidden
-                className="text-primary text-center text-3xl sm:text-4xl"
-              >
-                ⇄
-              </div>
-              <AnchorSnippet label="on your site" domain="their-site.com" />
-            </div>
-            <div className="border-border text-muted-foreground flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t px-6 py-4 text-xs sm:px-8 sm:text-sm">
-              <span>matching niches like</span>
-              <ExchangeTicker />
-            </div>
+          {/* Signature: members per niche, double marquee */}
+          <div className="mt-16">
+            <NicheCarousel />
           </div>
         </section>
 
@@ -126,19 +105,32 @@ export default function Page() {
             <h2 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
               How it works
             </h2>
-            <div className="mt-10 grid gap-10 sm:grid-cols-3 sm:gap-8">
+            <div className="divide-border mt-6 divide-y">
               {STEPS.map((step) => (
-                <div key={step.number}>
-                  <div className="text-primary font-mono text-sm">
-                    {step.number}.
+                <div
+                  key={step.number}
+                  className="grid items-center gap-6 py-10 sm:grid-cols-[240px_1fr] sm:gap-12"
+                >
+                  <div className="border-border bg-muted/30 rounded-xl border px-6 py-5">
+                    {step.illustration}
                   </div>
-                  <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
-                  <p className="text-muted-foreground mt-2 leading-relaxed">
-                    {step.body}
-                  </p>
+                  <div>
+                    <div className="text-primary font-mono text-sm">
+                      {step.number}.
+                    </div>
+                    <h3 className="mt-2 text-lg font-semibold">
+                      {step.title}
+                    </h3>
+                    <p className="text-muted-foreground mt-2 max-w-lg leading-relaxed">
+                      {step.body}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
+            <p className="text-muted-foreground border-border border-t pt-6 font-mono text-xs">
+              {"// same functionality as Help a B2B Writer / HARO"}
+            </p>
           </div>
         </section>
 
@@ -190,7 +182,7 @@ export default function Page() {
 
       <footer className="border-border border-t">
         <div className="text-muted-foreground mx-auto flex w-full max-w-5xl flex-col gap-2 px-6 py-8 font-mono text-xs sm:flex-row sm:items-center sm:justify-between">
-          <span>© 2026 backlinks.exchange</span>
+          <span>© 2026 exchange-backlinks.com</span>
           <span>
             built by the team behind{" "}
             <a

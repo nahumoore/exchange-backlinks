@@ -21,7 +21,7 @@ const fontMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Backlinks Exchange — trade backlinks with B2B sites in your niche",
+  title: "Exchange Backlinks — trade backlinks with B2B sites in your niche",
   description:
     "A 100% free backlink exchange. Submit your site and a weekly email shares it with other B2B sites in your niche — you arrange the swap together. No fees, no marketplace.",
 }
