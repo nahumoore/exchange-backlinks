@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { IconArrowRight } from "@tabler/icons-react"
+import { IconArrowRight, IconBrandGithub } from "@tabler/icons-react"
 
 import { Button } from "@workspace/ui/components/button"
 import { NicheCarousel } from "@/components/niche-carousel"
@@ -183,6 +183,15 @@ export default function Page() {
       <footer className="border-border border-t">
         <div className="text-muted-foreground mx-auto flex w-full max-w-5xl flex-col gap-2 px-6 py-8 font-mono text-xs sm:flex-row sm:items-center sm:justify-between">
           <span>© 2026 exchange-backlinks.com</span>
+          <a
+            href="https://github.com/nahumoore/exchange-backlinks"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary inline-flex items-center gap-1.5 underline underline-offset-4"
+          >
+            <IconBrandGithub className="size-3.5" />
+            Star on GitHub
+          </a>
           <span>
             built by the team behind{" "}
             <a

@@ -4,11 +4,13 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-# backlinks-exchange.com
+# exchange-backlinks.com
 
 ## What this is
 
 A **100% free backlink exchange system** for SEOs, founders, and small marketing teams. Think "Help a B2B Writer" / HARO, but instead of journalist–source matching, it matches **sites in the same B2B niche** so they can exchange backlinks with each other.
+
+This is an **open-source project**: https://github.com/nahumoore/exchange-backlinks (the site footer links to it with a "Star on GitHub" CTA).
 
 **Business purpose:** this is a free lead magnet whose entire job is lead generation for [Mentiohunt](https://mentiohunt.com) — a paid SaaS ($49–99/mo) that puts backlink acquisition on autopilot for B2B SaaS teams (discovery, outreach, placement coordination). The exchange attracts the exact ICP (founder-led and lean B2B teams doing their own link building), then nudges them toward Mentiohunt.
 
