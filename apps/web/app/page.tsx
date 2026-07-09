@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { IconArrowRight, IconBrandGithub } from "@tabler/icons-react"
 
@@ -8,6 +9,38 @@ import {
   IllustrationExchange,
   IllustrationSubmit,
 } from "@/components/step-illustrations"
+import {
+  GITHUB_URL,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site"
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+}
+
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      sameAs: [GITHUB_URL],
+    },
+  ],
+}
 
 const STEPS = [
   {
@@ -48,6 +81,12 @@ const RULES = [
 export default function Page() {
   return (
     <div className="flex min-h-svh flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(JSON_LD).replace(/</g, "\\u003c"),
+        }}
+      />
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-5">
         <Link href="/" className="font-mono text-sm font-medium tracking-tight">
           exchange<span className="text-primary">-</span>backlinks.com

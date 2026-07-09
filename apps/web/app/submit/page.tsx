@@ -4,7 +4,12 @@ import Link from "next/link"
 import { SubmitEmailForm } from "@/components/submit-email-form"
 
 export const metadata: Metadata = {
-  title: "Submit your site — Exchange Backlinks",
+  title: "Submit your site",
+  description:
+    "Register your B2B site for free. Every week we match it with other sites in your niche so you can trade backlinks on your own terms.",
+  alternates: {
+    canonical: "/submit",
+  },
 }
 
 export default async function SubmitPage(props: PageProps<"/submit">) {

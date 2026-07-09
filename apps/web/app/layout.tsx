@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Geist_Mono, Inter } from "next/font/google"
 
 import "@workspace/ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site"
 import { cn } from "@workspace/ui/lib/utils"
 
 const fontSans = Inter({
@@ -21,9 +22,20 @@ const fontMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Exchange Backlinks — trade backlinks with B2B sites in your niche",
-  description:
-    "A 100% free backlink exchange. Submit your site and a weekly email shares it with other B2B sites in your niche — you arrange the swap together. No fees, no marketplace.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_TITLE,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 }
 
 export default function RootLayout({

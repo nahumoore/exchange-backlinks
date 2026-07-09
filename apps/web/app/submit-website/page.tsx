@@ -4,7 +4,11 @@ import Link from "next/link"
 import { SubmitWebsiteForm } from "@/components/submit-website-form"
 
 export const metadata: Metadata = {
-  title: "Add your websites — Exchange Backlinks",
+  title: "Add your websites",
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export default async function SubmitWebsitePage(
