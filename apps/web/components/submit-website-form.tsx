@@ -3,7 +3,6 @@
 import { useState } from "react"
 import Link from "next/link"
 import { IconLock } from "@tabler/icons-react"
-import { z } from "zod"
 
 import { Button } from "@workspace/ui/components/button"
 import {
@@ -24,28 +23,10 @@ import {
   SelectValue,
 } from "@workspace/ui/components/select"
 import { Textarea } from "@workspace/ui/components/textarea"
+import { domainSchema } from "@/lib/domain"
 import { NICHE_NAMES } from "@/lib/niches"
 
 type Analysis = { domainRating: number; description: string }
-
-/** Strip protocol, www. and any path so "https://www.Acme.com/blog" → "acme.com". */
-function normalizeDomain(input: string) {
-  const bare = input
-    .trim()
-    .toLowerCase()
-    .replace(/^[a-z][a-z0-9+.-]*:\/\//, "")
-    .replace(/^www\./, "")
-  return (bare.split(/[/?#]/)[0] ?? "").replace(/\.$/, "")
-}
-
-const domainSchema = z
-  .string()
-  .transform(normalizeDomain)
-  .pipe(
-    z
-      .string()
-      .regex(/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/)
-  )
 
 export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
   const [phase, setPhase] = useState<
@@ -117,8 +98,6 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
     setError(null)
     setPhase("submitting")
     try {
-      // TODO(backend): handle a 409 { error: "domain_taken" } response with
-      // an "already in the exchange" message — domains are globally unique.
       const res = await fetch("/api/sites", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -130,7 +109,17 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
           description: description.trim(),
         }),
       })
-      if (!res.ok) throw new Error()
+      if (!res.ok) {
+        const data: { error?: string } = await res.json().catch(() => ({}))
+        if (res.status === 409 && data.error === "domain_taken") {
+          setPhase("details")
+          setError(
+            "That domain is already in the exchange — each domain can only belong to one member."
+          )
+          return
+        }
+        throw new Error()
+      }
       setSubmittedDomain(domain)
       setDomainInput("")
       resetToDomain()

@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server"
 
+import { mockDomainRating } from "@/lib/analyze"
+
 // POST /api/analyze-site — builds the site profile shown on /submit-website
 // after the user enters their domain.
 //
@@ -17,15 +19,14 @@ export async function POST(request: Request) {
     .json()
     .catch(() => ({}))) as { domain?: string }
 
-  // Mock: deterministic pseudo-rating from the domain so repeat runs are
-  // stable, plus a short delay so the "analyzing" state is visible.
-  const seed = [...domain].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 997, 7)
+  // Mock rating (shared with /api/sites), plus a short delay so the
+  // "analyzing" state is visible.
   const brand = domain.split(".")[0] ?? domain
   const name = brand.charAt(0).toUpperCase() + brand.slice(1)
   await new Promise((resolve) => setTimeout(resolve, 700))
 
   return NextResponse.json({
-    domainRating: 18 + (seed % 58),
+    domainRating: mockDomainRating(domain),
     description: `${name} is a B2B platform publishing product-led guides, benchmarks and tooling deep-dives for teams in its niche. Its content targets practitioners evaluating solutions, making it a natural backlink partner for adjacent B2B sites.`,
   })
 }

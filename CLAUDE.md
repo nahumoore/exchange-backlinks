@@ -23,11 +23,13 @@ Keep that framing in mind for every product/copy decision: free, low-friction, g
 - **Matching mechanic (decided):** once a member submits their site, we send **one weekly email** listing their site to other members in the same niche (and theirs to them). Members then discuss directly how and where each link gets swapped — **100% freedom**, no middleman, no rules on placement.
 - Everything else (dashboards, member management) is TBD — ask the user before inventing scope.
 
-## Not yet decided — ask before assuming
+## Backend (decided)
 
-- Database / backend (none installed yet)
-- Auth strategy (or whether email-only signup is enough)
-- Email provider for the weekly digest
+- **Database:** Supabase Postgres — schema in `supabase/schema.sql` (run manually in the SQL editor). RLS is enabled on every table with **no policies**; all access goes through the server-side secret key via `getSupabaseAdmin()` in `apps/web/lib/supabase/admin.ts`. No `@supabase/ssr`, no browser client, no proxy/middleware — there are no Supabase Auth sessions.
+- **Auth:** email-only. `/api/subscribe` emails an HMAC-signed 24h link (`apps/web/lib/verify-token.ts`, `VERIFY_TOKEN_SECRET`); `/api/verify` sets `members.verified_at` and redirects to `/submit-website?id=<memberId>`.
+- **Email:** Resend (`apps/web/lib/email.ts`). Until the domain is verified in Resend, `onboarding@resend.dev` only delivers to the account owner — set `RESEND_FROM` once verified.
+- **Env:** `apps/web/.env.local` for dev (gitignored); production values live in the Cloudflare Worker's Variables and Secrets. Declare new env vars in `turbo.json` `globalEnv`.
+- `/api/analyze-site` is still a mock (`mockDomainRating` in `apps/web/lib/analyze.ts`); the weekly digest is not built yet.
 
 ## Tech stack
 

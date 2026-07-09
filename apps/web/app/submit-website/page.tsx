@@ -1,7 +1,9 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { z } from "zod"
 
 import { SubmitWebsiteForm } from "@/components/submit-website-form"
+import { getSupabaseAdmin } from "@/lib/supabase/admin"
 
 export const metadata: Metadata = {
   title: "Add your websites",
@@ -15,10 +17,18 @@ export default async function SubmitWebsitePage(
   props: PageProps<"/submit-website">
 ) {
   const { id } = await props.searchParams
-  const memberId = typeof id === "string" ? id : undefined
+  let memberId =
+    typeof id === "string" && z.uuid().safeParse(id).success ? id : undefined
 
-  // TODO(backend): look up the member by id in Supabase and load their sites.
   // Unknown id or unverified member → render the invalid-link state below.
+  if (memberId) {
+    const { data: member } = await getSupabaseAdmin()
+      .from("members")
+      .select("id, verified_at")
+      .eq("id", memberId)
+      .maybeSingle()
+    if (!member || member.verified_at === null) memberId = undefined
+  }
 
   return (
     <div className="flex min-h-svh flex-col">
@@ -52,9 +62,9 @@ export default async function SubmitWebsitePage(
               This link doesn&apos;t work
             </h1>
             <p className="text-muted-foreground mt-4 max-w-xl leading-relaxed">
-              The link is missing its member id — it may have been cut off by
-              your email client. Re-enter your email and we&apos;ll send you a
-              fresh one.
+              We couldn&apos;t match this link to a verified member — it may
+              have been cut off by your email client or expired. Re-enter your
+              email and we&apos;ll send you a fresh one.
             </p>
             <Link
               href="/submit"
