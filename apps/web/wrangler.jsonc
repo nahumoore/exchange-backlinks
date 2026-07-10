@@ -9,4 +9,17 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS",
   },
+  // Persistent Workers Logs (dashboard -> Worker -> Logs).
+  "observability": {
+    "enabled": true,
+  },
+  // Don't delete dashboard-set variables/secrets on deploy.
+  "keep_vars": true,
+  // Non-secret runtime config lives here; SUPABASE_SECRET_KEY, RESEND_API_KEY
+  // and VERIFY_TOKEN_SECRET must be dashboard *Secrets* (secrets survive
+  // deploys; plaintext vars set in the dashboard normally do not).
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://qjooqhjuauopsvdbcvms.supabase.co",
+    "RESEND_FROM": "Exchange Backlinks <alerts@hello.exchange-backlinks.com>",
+  },
 }
