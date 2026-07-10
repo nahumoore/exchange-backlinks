@@ -26,7 +26,7 @@ import { Textarea } from "@workspace/ui/components/textarea"
 import { domainSchema } from "@/lib/domain"
 import { NICHE_NAMES } from "@/lib/niches"
 
-type Analysis = { domainRating: number; description: string }
+type Analysis = { domainRating: number | null; description: string }
 
 export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
   const [phase, setPhase] = useState<
@@ -164,7 +164,17 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <span className="font-mono text-sm font-medium">{domain}</span>
             <span className="border-primary/40 text-primary rounded-full border px-3 py-1 font-mono text-xs">
-              dr {analysis?.domainRating}
+              dr {analysis?.domainRating ?? "—"}
+            </span>
+            <span className="text-muted-foreground flex items-center gap-1.5 text-xs">
+              <img
+                src="https://www.google.com/s2/favicons?domain=ahrefs.com&sz=32"
+                alt=""
+                width={14}
+                height={14}
+                className="rounded-sm"
+              />
+              Domain Rating via Ahrefs
             </span>
             <button
               type="button"
@@ -219,7 +229,9 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
                 className="mt-2"
               />
               <p className="text-muted-foreground mt-2 font-mono text-xs">
-                {"// generated from your homepage — edit freely"}
+                {
+                  "// AI-generated from your homepage — your site name stays hidden. Edit freely"
+                }
               </p>
             </div>
           </div>

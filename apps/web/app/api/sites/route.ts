@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 
-import { mockDomainRating } from "@/lib/analyze"
+import { getDomainRating } from "@/lib/ahrefs"
 import { domainSchema } from "@/lib/domain"
 import { NICHE_NAMES } from "@/lib/niches"
 import { getSupabaseAdmin } from "@/lib/supabase/admin"
@@ -38,13 +38,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "member_not_verified" }, { status: 403 })
   }
 
+  // Re-fetched from Ahrefs here rather than trusting the analyze-site
+  // response — never trust a client-supplied metric.
+  const domainRating = await getDomainRating(domain)
+
   const { error } = await supabase.from("sites").insert({
     member_id: memberId,
     domain,
     niche,
     keywords,
     description,
-    domain_rating: mockDomainRating(domain),
+    domain_rating: domainRating,
   })
   if (error) {
     if (error.code === "23505") {

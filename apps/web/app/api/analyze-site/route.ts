@@ -1,32 +1,39 @@
 import { NextResponse } from "next/server"
+import { z } from "zod"
 
-import { mockDomainRating } from "@/lib/analyze"
+import { getDomainRating } from "@/lib/ahrefs"
+import { domainSchema } from "@/lib/domain"
+import { generateSiteDescription } from "@/lib/openrouter"
+import { scrapeSite, SiteUnreachableError } from "@/lib/scrape"
+
+const bodySchema = z.object({ domain: domainSchema })
 
 // POST /api/analyze-site — builds the site profile shown on /submit-website
-// after the user enters their domain.
-//
-// TODO(backend):
-//   1. Validate the body with zod ({ domain }) and normalize server-side.
-//   2. Fetch https://<domain> (short timeout, capped redirects) and parse the
-//      <title> + meta description from the homepage.
-//   3. Pull the domain rating from an SEO metrics provider
-//      (Ahrefs / Moz / DataForSEO).
-//   4. Generate a short site description with Claude from the homepage
-//      content — the user can edit it before submitting.
-//   5. Unreachable site → 422 { error: "site_unreachable" }.
+// after the user enters their domain: scrapes the homepage, pulls a Domain
+// Rating from Ahrefs' free public API, and has an OpenRouter model write a
+// short description (identity-scrubbed so the site can't be identified from
+// its listing).
 export async function POST(request: Request) {
-  const { domain = "your-site.com" } = (await request
-    .json()
-    .catch(() => ({}))) as { domain?: string }
+  const parsed = bodySchema.safeParse(await request.json().catch(() => null))
+  if (!parsed.success) {
+    return NextResponse.json({ error: "invalid_body" }, { status: 400 })
+  }
+  const { domain } = parsed.data
 
-  // Mock rating (shared with /api/sites), plus a short delay so the
-  // "analyzing" state is visible.
-  const brand = domain.split(".")[0] ?? domain
-  const name = brand.charAt(0).toUpperCase() + brand.slice(1)
-  await new Promise((resolve) => setTimeout(resolve, 700))
+  let scraped
+  try {
+    scraped = await scrapeSite(domain)
+  } catch (error) {
+    if (error instanceof SiteUnreachableError) {
+      return NextResponse.json({ error: "site_unreachable" }, { status: 422 })
+    }
+    throw error
+  }
 
-  return NextResponse.json({
-    domainRating: mockDomainRating(domain),
-    description: `${name} is a B2B platform publishing product-led guides, benchmarks and tooling deep-dives for teams in its niche. Its content targets practitioners evaluating solutions, making it a natural backlink partner for adjacent B2B sites.`,
-  })
+  const [domainRating, description] = await Promise.all([
+    getDomainRating(domain),
+    generateSiteDescription(scraped, domain),
+  ])
+
+  return NextResponse.json({ domainRating, description })
 }

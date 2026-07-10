@@ -7,7 +7,8 @@
     "SUPABASE_SECRET_KEY",
     "RESEND_API_KEY",
     "RESEND_FROM",
-    "VERIFY_TOKEN_SECRET"
+    "VERIFY_TOKEN_SECRET",
+    "OPENROUTER_API_KEY"
   ],
   "tasks": {
     "build": {
