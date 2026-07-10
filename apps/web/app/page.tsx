@@ -3,6 +3,7 @@ import Link from "next/link"
 import { IconArrowRight } from "@tabler/icons-react"
 
 import { Button } from "@workspace/ui/components/button"
+import { JsonLd } from "@/components/json-ld"
 import { NicheCarousel } from "@/components/niche-carousel"
 import { SiteFooter } from "@/components/site-footer"
 import {
@@ -82,12 +83,7 @@ const RULES = [
 export default function Page() {
   return (
     <div className="flex min-h-svh flex-col">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(JSON_LD).replace(/</g, "\\u003c"),
-        }}
-      />
+      <JsonLd data={JSON_LD} />
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-5">
         <Link href="/" className="font-mono text-sm font-medium tracking-tight">
           exchange<span className="text-primary">-</span>backlinks.com

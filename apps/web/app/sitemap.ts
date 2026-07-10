@@ -15,6 +15,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: `${SITE_URL}/alternatives`,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
     ...ALTERNATIVES.map((alternative) => ({
       url: `${SITE_URL}/alternatives/${alternative.slug}`,
       changeFrequency: "monthly" as const,

@@ -11,7 +11,12 @@ export function SiteFooter({ currentSlug }: { currentSlug?: string }) {
     <footer className="border-border border-t">
       <div className="mx-auto w-full max-w-5xl px-6 py-8">
         <div className="text-muted-foreground flex flex-wrap items-center gap-x-2 gap-y-1.5 font-mono text-xs">
-          <span className="text-foreground">alternatives:</span>
+          <Link
+            href="/alternatives"
+            className="text-foreground hover:text-primary underline underline-offset-4"
+          >
+            alternatives:
+          </Link>
           {links.map((alternative, i) => (
             <span key={alternative.slug}>
               <Link

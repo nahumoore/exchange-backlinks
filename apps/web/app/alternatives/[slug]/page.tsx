@@ -4,8 +4,10 @@ import { notFound } from "next/navigation"
 import { IconArrowRight } from "@tabler/icons-react"
 
 import { Button } from "@workspace/ui/components/button"
+import { JsonLd } from "@/components/json-ld"
 import { SiteFooter } from "@/components/site-footer"
 import { ALTERNATIVES, getAlternative } from "@/lib/alternatives"
+import { GITHUB_URL, SITE_NAME, SITE_URL } from "@/lib/site"
 
 export function generateStaticParams() {
   return ALTERNATIVES.map((alternative) => ({ slug: alternative.slug }))
@@ -21,11 +23,20 @@ export async function generateMetadata(
   if (!alternative) return {}
 
   const title = `${alternative.name} alternative (free)`
+  const description = `Looking for a ${alternative.name} alternative? Exchange Backlinks matches you with sites in your B2B niche for a free, direct backlink trade — no fees, no marketplace.`
+  const url = `/alternatives/${alternative.slug}`
+
   return {
     title,
-    description: `Looking for a ${alternative.name} alternative? Exchange Backlinks matches you with sites in your B2B niche for a free, direct backlink trade — no fees, no marketplace.`,
+    description,
     alternates: {
-      canonical: `/alternatives/${alternative.slug}`,
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "article",
     },
   }
 }
@@ -41,8 +52,52 @@ export default async function AlternativePage(
     `@/content/alternatives/${slug}.mdx`
   )
 
+  const url = `${SITE_URL}/alternatives/${alternative.slug}`
+  const title = `${alternative.name} alternative (free)`
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Alternatives",
+            item: `${SITE_URL}/alternatives`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: title,
+            item: url,
+          },
+        ],
+      },
+      {
+        "@type": "Article",
+        "@id": `${url}#article`,
+        headline: title,
+        description: alternative.tagline,
+        url,
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        publisher: {
+          "@type": "Organization",
+          name: SITE_NAME,
+          sameAs: [GITHUB_URL],
+        },
+        author: {
+          "@type": "Organization",
+          name: SITE_NAME,
+        },
+      },
+    ],
+  }
+
   return (
     <div className="flex min-h-svh flex-col">
+      <JsonLd data={jsonLd} />
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-5">
         <Link href="/" className="font-mono text-sm font-medium tracking-tight">
           exchange<span className="text-primary">-</span>backlinks.com
