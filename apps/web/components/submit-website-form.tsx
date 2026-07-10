@@ -6,6 +6,15 @@ import { IconLock } from "@tabler/icons-react"
 
 import { Button } from "@workspace/ui/components/button"
 import {
+  Combobox,
+  ComboboxCollection,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@workspace/ui/components/combobox"
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -15,13 +24,6 @@ import {
 } from "@workspace/ui/components/dialog"
 import { Input } from "@workspace/ui/components/input"
 import { Label } from "@workspace/ui/components/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/ui/components/select"
 import { Textarea } from "@workspace/ui/components/textarea"
 import { domainSchema } from "@/lib/domain"
 import { NICHE_NAMES } from "@/lib/niches"
@@ -188,18 +190,29 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
           <div className="mt-6 grid gap-5">
             <div>
               <Label htmlFor="niche">Niche</Label>
-              <Select value={niche} onValueChange={(value) => setNiche(value)}>
-                <SelectTrigger id="niche" className="mt-2 h-9 w-full sm:max-w-xs">
-                  <SelectValue placeholder="Select a niche" />
-                </SelectTrigger>
-                <SelectContent>
-                  {NICHE_NAMES.map((name) => (
-                    <SelectItem key={name} value={name}>
-                      {name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Combobox
+                items={NICHE_NAMES}
+                value={niche}
+                onValueChange={(value) => setNiche(value)}
+              >
+                <ComboboxInput
+                  id="niche"
+                  placeholder="Search niches…"
+                  className="mt-2 h-9 w-full sm:max-w-xs"
+                />
+                <ComboboxContent>
+                  <ComboboxEmpty>No matching niche</ComboboxEmpty>
+                  <ComboboxList>
+                    <ComboboxCollection>
+                      {(item: string) => (
+                        <ComboboxItem key={item} value={item}>
+                          {item}
+                        </ComboboxItem>
+                      )}
+                    </ComboboxCollection>
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
             </div>
 
             <div>

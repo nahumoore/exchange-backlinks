@@ -15,6 +15,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@base-ui/react": "^1.6.0",
     "@opennextjs/cloudflare": "^1.20.1",
     "@supabase/supabase-js": "^2.110.2",
     "@tabler/icons-react": "^3.44.0",

@@ -1,7 +1,8 @@
 import { cn } from "@workspace/ui/lib/utils"
 import { NICHES } from "@/lib/niches"
 
-const ROWS = [NICHES.slice(0, 8), NICHES.slice(8)]
+const HALF = Math.ceil(NICHES.length / 2)
+const ROWS = [NICHES.slice(0, HALF), NICHES.slice(HALF)]
 
 function NicheChip({
   name,
