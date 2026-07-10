@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
 
+import { ALTERNATIVES } from "@/lib/alternatives"
 import { SITE_URL } from "@/lib/site"
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -14,5 +15,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    ...ALTERNATIVES.map((alternative) => ({
+      url: `${SITE_URL}/alternatives/${alternative.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
   ]
 }
