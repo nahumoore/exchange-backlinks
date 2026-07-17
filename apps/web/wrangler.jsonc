@@ -15,11 +15,12 @@
   },
   // Don't delete dashboard-set variables/secrets on deploy.
   "keep_vars": true,
-  // Non-secret runtime config lives here; SUPABASE_SECRET_KEY, RESEND_API_KEY
-  // and VERIFY_TOKEN_SECRET must be dashboard *Secrets* (secrets survive
-  // deploys; plaintext vars set in the dashboard normally do not).
+  // Non-secret runtime config lives here; SUPABASE_SECRET_KEY, RESEND_API_KEY,
+  // VERIFY_TOKEN_SECRET and CRON_SECRET must be dashboard *Secrets* (secrets
+  // survive deploys; plaintext vars set in the dashboard normally do not).
   "vars": {
     "NEXT_PUBLIC_SUPABASE_URL": "https://qjooqhjuauopsvdbcvms.supabase.co",
     "RESEND_FROM": "Exchange Backlinks <alerts@hello.exchange-backlinks.com>",
+    "RELAY_DOMAIN": "reply.exchange-backlinks.com",
   },
 }

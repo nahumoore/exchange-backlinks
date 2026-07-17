@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": "src/index.ts",
+  // Companion Worker to the main "exchange-backlinks" Worker — it owns the
+  // Cloudflare-native triggers (cron + inbound email) that the OpenNext-built
+  // worker.js can't expose, and just calls back into the Next app over HTTP.
+  "name": "exchange-backlinks-mail",
+  "compatibility_date": "2026-07-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+  },
+  "keep_vars": true,
+  // Weekday digest cron, 14:00 UTC (Mon-Fri) — no weekend sends.
+  "triggers": {
+    "crons": ["0 14 * * 1-5"],
+  },
+  "vars": {
+    "APP_URL": "https://exchange-backlinks.com",
+  },
+  // CRON_SECRET must be set as a dashboard Secret (wrangler secret put
+  // CRON_SECRET) — it authenticates this worker's calls to the Next app's
+  // /api/digest/run and /api/relay/inbound routes.
+}
