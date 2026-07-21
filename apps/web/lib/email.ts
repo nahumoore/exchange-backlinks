@@ -161,22 +161,13 @@ function statsBlockText(stats: SiteStats) {
   ].join("\n")
 }
 
-// The weekday digest — one email per member listing the sites we matched
-// them with this run. Deliberately renders no domain/URL anywhere: only the
-// identity-scrubbed description, DR, keywords, and a masked contact address.
-export async function sendDigestEmail({
-  to,
-  listings,
-  unsubscribeUrl,
-}: {
+export type DigestSend = {
   to: string
   listings: DigestListing[]
   unsubscribeUrl: string
-}) {
-  const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey) throw new Error("Missing RESEND_API_KEY env variable")
-  const resend = new Resend(apiKey)
+}
 
+function buildDigestEmailPayload({ to, listings, unsubscribeUrl }: DigestSend) {
   const plural = listings.length === 1 ? "" : "es"
   const subject = `${listings.length} match${plural} for you on ${SITE_NAME}`
   const intro = `We found ${listings.length} site${plural} in your niche that want to swap backlinks. Reply to any contact address below to set up a swap — you deal directly with the owner. We keep both sites hidden until you reach out.`
@@ -208,15 +199,38 @@ export async function sendDigestEmail({
 
   const recipient = resolveTestRecipient(to, subject)
 
-  const { error } = await resend.emails.send({
+  return {
     from: process.env.RESEND_FROM ?? DEFAULT_FROM,
     to: recipient.to,
     subject: recipient.subject,
     text,
     html,
-  })
+  }
+}
 
-  if (error) throw new Error(`Resend failed: ${error.message}`)
+// Resend's /emails/batch endpoint accepts up to 100 emails per call.
+const BATCH_CHUNK_SIZE = 100
+
+// The weekday digest — one email per member listing the sites we matched
+// them with this run. Deliberately renders no domain/URL anywhere: only the
+// identity-scrubbed description, DR, keywords, and a masked contact address.
+// Sent via Resend's batch endpoint so a run touching dozens of members costs
+// one HTTP call per 100 recipients instead of one per recipient — each call
+// out of a Cloudflare Worker counts against its per-invocation subrequest
+// limit, and a send-per-member loop was quietly truncating every run.
+export async function sendDigestEmails(sends: DigestSend[]) {
+  if (sends.length === 0) return
+
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) throw new Error("Missing RESEND_API_KEY env variable")
+  const resend = new Resend(apiKey)
+
+  const payloads = sends.map(buildDigestEmailPayload)
+  for (let i = 0; i < payloads.length; i += BATCH_CHUNK_SIZE) {
+    const chunk = payloads.slice(i, i + BATCH_CHUNK_SIZE)
+    const { error } = await resend.batch.send(chunk)
+    if (error) throw new Error(`Resend batch failed: ${error.message}`)
+  }
 }
 
 function digestListingCard(listing: DigestListing) {

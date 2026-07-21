@@ -25,3 +25,22 @@ export async function reserveEmailSend(supabase: Supabase, cap: number) {
   if (error) throw error
   return data === true
 }
+
+/** Batched counterpart to reserveEmailSend — claims up to `count` sends in a
+ * single round trip (returning how many were actually granted) instead of
+ * one round trip per email. Use this whenever a caller already knows how
+ * many sends it wants up front, e.g. a digest run reserving its whole
+ * batch at once. */
+export async function reserveEmailSends(
+  supabase: Supabase,
+  cap: number,
+  count: number
+) {
+  if (count <= 0) return 0
+  const { data, error } = await supabase.rpc("try_reserve_email_sends", {
+    p_cap: cap,
+    p_count: count,
+  })
+  if (error) throw error
+  return data ?? 0
+}

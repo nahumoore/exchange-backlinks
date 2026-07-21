@@ -75,6 +75,66 @@ export async function getOrCreateThread(
   throw insertError
 }
 
+export type RelayThread = {
+  id: string
+  site_a_id: string
+  site_b_id: string
+  alias_a: string
+  alias_b: string
+}
+
+/** Batched counterpart to getOrCreateThread's "create" half — given pairs
+ * already confirmed to have no existing thread, inserts them all in one
+ * round trip (falling back to a single extra select only if a concurrent
+ * writer, e.g. relay/inbound, won the race on one of them in the meantime)
+ * and returns every resulting thread keyed by "site_a_id:site_b_id". Callers
+ * are expected to have already resolved existing pairs themselves — this
+ * never re-checks, so passing an already-threaded pair here just wastes the
+ * insert attempt (harmless: it's caught by the conflict fallback). */
+export async function createRelayThreads(
+  supabase: Supabase,
+  pairs: { siteAId: string; siteBId: string; niche: string }[]
+): Promise<Map<string, RelayThread>> {
+  const byKey = new Map<string, RelayThread>()
+  if (pairs.length === 0) return byKey
+
+  const rows = pairs.map((p) => ({
+    site_a_id: p.siteAId,
+    site_b_id: p.siteBId,
+    alias_a: newAlias(),
+    alias_b: newAlias(),
+    niche: p.niche,
+  }))
+
+  const { data: inserted, error: insertError } = await supabase
+    .from("relay_threads")
+    .upsert(rows, { onConflict: "site_a_id,site_b_id", ignoreDuplicates: true })
+    .select("id, site_a_id, site_b_id, alias_a, alias_b")
+  if (insertError) throw insertError
+  for (const thread of inserted ?? []) {
+    byKey.set(`${thread.site_a_id}:${thread.site_b_id}`, thread)
+  }
+
+  const stillMissing = pairs.filter(
+    (p) => !byKey.has(`${p.siteAId}:${p.siteBId}`)
+  )
+  if (stillMissing.length > 0) {
+    const ids = Array.from(
+      new Set(stillMissing.flatMap((p) => [p.siteAId, p.siteBId]))
+    )
+    const { data: retried, error: retryError } = await supabase
+      .from("relay_threads")
+      .select("id, site_a_id, site_b_id, alias_a, alias_b")
+      .or(`site_a_id.in.(${ids.join(",")}),site_b_id.in.(${ids.join(",")})`)
+    if (retryError) throw retryError
+    for (const thread of retried ?? []) {
+      byKey.set(`${thread.site_a_id}:${thread.site_b_id}`, thread)
+    }
+  }
+
+  return byKey
+}
+
 /** Given a thread and which site is receiving this listing, returns the
  * alias to show as the contact address (it delivers to the *other* site). */
 export function contactAliasFor(

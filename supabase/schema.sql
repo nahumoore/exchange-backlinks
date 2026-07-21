@@ -103,3 +103,34 @@ stable
 as $body$
   select coalesce(sent, 0) from public.email_usage where day = current_date;
 $body$;
+
+-- Batched counterpart to try_reserve_email_send: reserves up to p_count sends
+-- in one round trip and returns how many were actually granted (less than
+-- p_count once the cap is nearly hit, 0 once it's exhausted). Lets a digest
+-- run claim its whole batch's worth of budget in a single call instead of
+-- one round trip per email — each Supabase/Resend call inside a Cloudflare
+-- Worker invocation counts against its per-request subrequest limit, so a
+-- one-RPC-per-email loop silently truncated every run well before the
+-- 80/day digest cap was ever reached.
+create or replace function public.try_reserve_email_sends(p_cap int, p_count int)
+returns int
+language plpgsql
+as $body$
+declare
+  v_sent int;
+  v_granted int;
+begin
+  insert into public.email_usage (day, sent)
+  values (current_date, 0)
+  on conflict (day) do nothing;
+
+  select sent into v_sent from public.email_usage where day = current_date for update;
+  v_granted := greatest(least(p_count, p_cap - v_sent), 0);
+
+  if v_granted > 0 then
+    update public.email_usage set sent = sent + v_granted where day = current_date;
+  end if;
+
+  return v_granted;
+end;
+$body$;
