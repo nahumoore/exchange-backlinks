@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Bricolage_Grotesque, Geist_Mono, Inter } from "next/font/google"
+import { Figtree, Inter } from "next/font/google"
 
 import "@workspace/ui/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -11,14 +11,10 @@ const fontSans = Inter({
   variable: "--font-sans",
 })
 
-const fontHeading = Bricolage_Grotesque({
+// Same pairing as mentiohunt.com: Figtree for headings, Inter for body.
+const fontHeading = Figtree({
   subsets: ["latin"],
   variable: "--font-heading",
-})
-
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
 })
 
 export const metadata: Metadata = {
@@ -51,8 +47,7 @@ export default function RootLayout({
         "antialiased",
         "font-sans",
         fontSans.variable,
-        fontHeading.variable,
-        fontMono.variable
+        fontHeading.variable
       )}
     >
       <body>

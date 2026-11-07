@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { IconArrowRight } from "@tabler/icons-react"
+import { IconArrowRight, IconScale } from "@tabler/icons-react"
 
-import { Button } from "@workspace/ui/components/button"
 import { JsonLd } from "@/components/json-ld"
 import { SiteFooter } from "@/components/site-footer"
+import { SiteHeader } from "@/components/site-header"
 import { ALTERNATIVES } from "@/lib/alternatives"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
 
@@ -44,6 +44,11 @@ function groupByCategory() {
     category,
     items: groups.get(category) ?? [],
   })).filter((group) => group.items.length > 0)
+}
+
+/** "AI content platform" → "AI content platforms" for group headings. */
+function pluralize(category: string) {
+  return `${category.charAt(0).toUpperCase()}${category.slice(1)}s`
 }
 
 export default function AlternativesPage() {
@@ -88,71 +93,73 @@ export default function AlternativesPage() {
   return (
     <div className="flex min-h-svh flex-col">
       <JsonLd data={jsonLd} />
-      <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-5">
-        <Link href="/" className="font-mono text-sm font-medium tracking-tight">
-          exchange<span className="text-primary">-</span>backlinks.com
-        </Link>
-        <Button size="sm" nativeButton={false} render={<Link href="/submit" />}>
-          Submit your site
-        </Button>
-      </header>
+      <SiteHeader />
 
       <main className="flex-1">
-        <section className="mx-auto w-full max-w-3xl px-6 pt-16 pb-8">
-          <p className="text-muted-foreground font-mono text-xs sm:text-sm">
-            {"// alternatives"}
-          </p>
-          <h1 className="font-heading mt-4 text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-            Free alternatives to paid{" "}
-            <span className="text-primary underline decoration-3 underline-offset-8">
-              backlink tools
-            </span>
-          </h1>
-          <p className="text-muted-foreground mt-5 max-w-xl text-lg leading-relaxed">
-            {`${SITE_NAME} matches you directly with other B2B sites in your niche for a free, reciprocal backlink trade — no fees, no marketplace, no automated placements. Here's how it compares to the paid tools and free digests teams usually try first.`}
-          </p>
-        </section>
-
-        <section className="border-border mx-auto w-full max-w-3xl border-t px-6 py-12">
-          {groups.map((group) => (
-            <div key={group.category} className="mb-10 last:mb-0">
-              <h2 className="font-heading text-xl font-semibold tracking-tight capitalize sm:text-2xl">
-                {group.category}
-              </h2>
-              <ul className="border-border mt-4 divide-y">
-                {group.items.map((alternative) => (
-                  <li key={alternative.slug} className="py-4">
-                    <Link
-                      href={`/alternatives/${alternative.slug}`}
-                      className="text-foreground font-medium underline underline-offset-4"
-                    >
-                      {alternative.name} alternative
-                    </Link>
-                    <p className="text-muted-foreground mt-1 leading-relaxed">
-                      {alternative.tagline}
-                    </p>
-                  </li>
-                ))}
-              </ul>
+        <section className="border-b border-hairline bg-surface px-4 pt-[116px] pb-16 sm:px-6">
+          <div className="mx-auto max-w-[1120px]">
+            <div className="flex items-center gap-2 text-xs font-semibold text-brand-strong">
+              <IconScale className="size-4" aria-hidden="true" />
+              <span>Backlink tool alternatives</span>
             </div>
-          ))}
-        </section>
-
-        <section className="border-border border-t">
-          <div className="mx-auto flex w-full max-w-3xl flex-col items-start gap-6 px-6 py-16">
-            <h2 className="font-heading max-w-xl text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
-              Your next backlink is a trade away.
-            </h2>
-            <Button
-              size="lg"
-              nativeButton={false}
-              render={<Link href="/submit" />}
-            >
-              Submit your site
-              <IconArrowRight data-icon="inline-end" />
-            </Button>
+            <h1 className="mt-4 max-w-4xl font-heading text-[40px] leading-[1.06] font-bold tracking-[-0.03em] text-balance text-ink sm:text-[52px]">
+              Free alternatives to paid backlink tools,{" "}
+              <span className="text-brand">compared honestly.</span>
+            </h1>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-ink-muted">
+              {`${SITE_NAME} matches you directly with other B2B sites in your niche for a free, reciprocal backlink trade — no fees, no marketplace, no automated placements. Here's how it compares to the paid tools and free digests teams usually try first, including where they still win.`}
+            </p>
           </div>
         </section>
+
+        <div className="px-4 py-14 sm:px-6">
+          <div className="mx-auto flex max-w-[1120px] flex-col gap-14">
+            {groups.map((group) => (
+              <section
+                key={group.category}
+                aria-labelledby={`group-${group.category}`}
+              >
+                <h2
+                  id={`group-${group.category}`}
+                  className="font-heading text-2xl font-bold tracking-[-0.02em] text-ink"
+                >
+                  {pluralize(group.category)}
+                </h2>
+                <div className="mt-5 grid gap-5 lg:grid-cols-2">
+                  {group.items.map((alternative) => (
+                    <Link
+                      key={alternative.slug}
+                      href={`/alternatives/${alternative.slug}`}
+                      className="group flex flex-col rounded-xl border border-border bg-card p-6 shadow-card transition-colors duration-200 hover:border-brand-border"
+                    >
+                      <span className="text-xs font-semibold text-ink-muted">
+                        Alternative
+                      </span>
+                      <h3 className="mt-2 font-heading text-xl font-semibold tracking-[-0.02em] text-ink transition-colors group-hover:text-brand-strong">
+                        {alternative.name} alternative
+                      </h3>
+                      <p className="mt-3 line-clamp-3 flex-1 text-sm leading-6 text-ink-muted">
+                        {alternative.tagline}
+                      </p>
+                      <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
+                        <span className="text-xs font-medium text-ink-muted capitalize">
+                          {alternative.category}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-brand-strong transition-all duration-200 group-hover:gap-1.5">
+                          Full comparison
+                          <IconArrowRight
+                            className="size-3.5"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        </div>
       </main>
 
       <SiteFooter />
