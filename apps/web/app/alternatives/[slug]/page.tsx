@@ -13,7 +13,14 @@ import { ArticleToc } from "@/components/article-toc"
 import { JsonLd } from "@/components/json-ld"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
-import { ALTERNATIVES, getAlternative } from "@/lib/alternatives"
+import {
+  ALTERNATIVES,
+  ALTERNATIVES_PUBLISHED,
+  ALTERNATIVES_UPDATED,
+  alternativeTitle,
+  getAlternative,
+  getRelatedAlternatives,
+} from "@/lib/alternatives"
 import { GITHUB_URL, SITE_NAME, SITE_URL, mentiohuntUrl } from "@/lib/site"
 
 const AT_A_GLANCE = [
@@ -23,6 +30,15 @@ const AT_A_GLANCE = [
   { label: "Your URL", value: "Hidden until both agree" },
   { label: "Placement", value: "You decide, directly" },
 ]
+
+const UPDATED_LABEL = new Date(
+  `${ALTERNATIVES_UPDATED}T00:00:00Z`
+).toLocaleDateString("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+})
 
 export function generateStaticParams() {
   return ALTERNATIVES.map((alternative) => ({ slug: alternative.slug }))
@@ -37,12 +53,14 @@ export async function generateMetadata(
   const alternative = getAlternative(slug)
   if (!alternative) return {}
 
-  const title = `${alternative.name} alternative (free)`
-  const description = `Looking for a ${alternative.name} alternative? Exchange Backlinks matches you with sites in your B2B niche for a free, direct backlink trade — no fees, no marketplace.`
+  const title = alternativeTitle(alternative)
+  const description = `Comparing ${alternative.name} alternatives? See how a free B2B backlink exchange stacks up — pricing, what you actually get, and where ${alternative.name} still wins.`
   const url = `/alternatives/${alternative.slug}`
 
   return {
-    title,
+    // Absolute: the brand suffix would push this keyword-led title past
+    // what Google shows in results.
+    title: { absolute: title },
     description,
     alternates: {
       canonical: url,
@@ -68,7 +86,8 @@ export default async function AlternativePage(
   )
 
   const url = `${SITE_URL}/alternatives/${alternative.slug}`
-  const title = `${alternative.name} alternative (free)`
+  const title = alternativeTitle(alternative)
+  const related = getRelatedAlternatives(alternative)
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -85,7 +104,7 @@ export default async function AlternativePage(
           {
             "@type": "ListItem",
             position: 3,
-            name: title,
+            name: `${alternative.name} alternatives`,
             item: url,
           },
         ],
@@ -96,6 +115,8 @@ export default async function AlternativePage(
         headline: title,
         description: alternative.tagline,
         url,
+        datePublished: ALTERNATIVES_PUBLISHED,
+        dateModified: ALTERNATIVES_UPDATED,
         isPartOf: { "@id": `${SITE_URL}/#website` },
         publisher: {
           "@type": "Organization",
@@ -226,7 +247,47 @@ export default async function AlternativePage(
             </aside>
 
             <article data-article-body className="min-w-0">
+              <p className="mb-8 text-[13px] text-ink-muted">
+                Last updated{" "}
+                <time dateTime={ALTERNATIVES_UPDATED}>{UPDATED_LABEL}</time>
+              </p>
               <Content />
+              {related.length > 0 && (
+                <section aria-labelledby="other-alternatives">
+                  <h2
+                    id="other-alternatives"
+                    className="mt-14 mb-5 scroll-mt-24 font-heading text-[1.7rem] leading-tight font-bold tracking-[-0.02em] text-ink"
+                  >
+                    More {alternative.name} alternatives compared
+                  </h2>
+                  <p className="text-[17px] leading-[1.75] text-foreground">
+                    {`If a direct exchange isn't what you need, these other ${alternative.category}s are the usual shortlist. Each has its own head-to-head comparison.`}
+                  </p>
+                  <ul className="mt-6 flex flex-col gap-3">
+                    {related.map((other) => (
+                      <li key={other.slug}>
+                        <Link
+                          href={`/alternatives/${other.slug}`}
+                          className="group flex items-start justify-between gap-4 rounded-xl border border-border bg-card p-5 shadow-card transition-colors hover:border-brand-border"
+                        >
+                          <span>
+                            <span className="block font-heading text-lg font-semibold text-ink transition-colors group-hover:text-brand-strong">
+                              {other.name}
+                            </span>
+                            <span className="mt-1 block text-[15px] leading-6 text-ink-secondary">
+                              {other.tagline}
+                            </span>
+                          </span>
+                          <IconArrowRight
+                            className="mt-1.5 size-4 shrink-0 text-ink-muted transition-colors group-hover:text-brand-strong"
+                            aria-hidden="true"
+                          />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
             </article>
           </div>
         </div>

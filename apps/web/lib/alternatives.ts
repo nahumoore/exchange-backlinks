@@ -89,6 +89,31 @@ export const ALTERNATIVES: Alternative[] = [
   },
 ]
 
+/**
+ * Publication dates for the comparison pages, used in the sitemap's lastmod,
+ * the Article schema, and the page title's year. Bump ALTERNATIVES_UPDATED
+ * whenever the comparisons are meaningfully revised — never automatically,
+ * so lastmod stays an honest freshness signal.
+ */
+export const ALTERNATIVES_PUBLISHED = "2026-07-10"
+export const ALTERNATIVES_UPDATED = "2026-11-07"
+
 export function getAlternative(slug: string): Alternative | undefined {
   return ALTERNATIVES.find((a) => a.slug === slug)
+}
+
+/** The other alternatives in the same category, for the "other options" list. */
+export function getRelatedAlternatives(alternative: Alternative) {
+  return ALTERNATIVES.filter(
+    (a) => a.category === alternative.category && a.slug !== alternative.slug
+  )
+}
+
+/**
+ * SEO title for a comparison page. People search "X alternatives" and
+ * "best X alternative", so lead with that instead of the brand name.
+ */
+export function alternativeTitle(alternative: Alternative) {
+  const year = ALTERNATIVES_UPDATED.slice(0, 4)
+  return `Best ${alternative.name} Alternatives in ${year} (Free & Paid)`
 }
