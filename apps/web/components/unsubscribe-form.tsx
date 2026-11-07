@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 
+import { IconCircleCheck } from "@tabler/icons-react"
+
 import { Button } from "@workspace/ui/components/button"
 
 export function UnsubscribeForm({ token }: { token: string }) {
@@ -27,10 +29,17 @@ export function UnsubscribeForm({ token }: { token: string }) {
 
   if (status === "done") {
     return (
-      <div className="border-border mt-10 w-full max-w-md rounded-xl border p-6">
-        <p className="text-primary font-mono text-xs">{"// unsubscribed"}</p>
-        <h2 className="mt-3 text-lg font-semibold">You&apos;re out</h2>
-        <p className="text-muted-foreground mt-2 leading-relaxed">
+      <div
+        role="status"
+        className="mt-8 w-full rounded-xl border border-border bg-card p-6 shadow-lifted"
+      >
+        <span className="flex size-11 items-center justify-center rounded-lg bg-brand-tint text-brand-strong">
+          <IconCircleCheck className="size-5" aria-hidden="true" />
+        </span>
+        <h2 className="mt-4 font-heading text-xl font-bold tracking-[-0.01em] text-ink">
+          You&apos;re out
+        </h2>
+        <p className="mt-1.5 text-[15px] leading-6 text-ink-secondary">
           Your sites are hidden from other members and the weekly emails have
           stopped. Submit again anytime to rejoin.
         </p>
@@ -39,16 +48,17 @@ export function UnsubscribeForm({ token }: { token: string }) {
   }
 
   return (
-    <div className="mt-10">
+    <div className="mt-8">
       <Button
         type="button"
+        size="lg"
         variant="destructive"
         onClick={handleConfirm}
         disabled={status === "sending"}
       >
         {status === "sending" ? "Unsubscribing…" : "Confirm unsubscribe"}
       </Button>
-      {error && <p className="text-destructive mt-2 text-sm">{error}</p>}
+      {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
     </div>
   )
 }

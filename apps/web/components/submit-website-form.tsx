@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { IconLock } from "@tabler/icons-react"
+import { IconCircleCheck, IconLock, IconLoader2 } from "@tabler/icons-react"
 
 import { Button } from "@workspace/ui/components/button"
 import {
@@ -132,11 +132,11 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
   }
 
   return (
-    <div className="mt-10 max-w-2xl">
+    <div className="mt-8">
       {phase === "domain" || phase === "analyzing" ? (
         <form onSubmit={handleAnalyze} noValidate>
           <Label htmlFor="domain">Domain</Label>
-          <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-2.5 flex flex-col gap-3 sm:flex-row">
             <Input
               id="domain"
               name="domain"
@@ -145,15 +145,25 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
               onChange={(e) => setDomainInput(e.target.value)}
               disabled={phase === "analyzing"}
               aria-invalid={error ? true : undefined}
-              className="sm:max-w-sm sm:flex-1"
+              className="h-11 sm:flex-1"
             />
-            <Button type="submit" disabled={phase === "analyzing"}>
+            <Button
+              type="submit"
+              disabled={phase === "analyzing"}
+              className="h-11 px-5"
+            >
+              {phase === "analyzing" && (
+                <IconLoader2
+                  data-icon="inline-start"
+                  className="animate-spin"
+                />
+              )}
               {phase === "analyzing" ? "Analyzing…" : "Continue"}
             </Button>
           </div>
           {phase === "analyzing" && (
-            <p className="text-muted-foreground mt-3 font-mono text-xs">
-              {"// fetching your homepage to build the site profile…"}
+            <p className="mt-3 text-[13px] text-ink-muted">
+              Fetching your homepage to build the site profile…
             </p>
           )}
         </form>
@@ -161,14 +171,18 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
         <form
           onSubmit={handleSubmit}
           noValidate
-          className="border-border rounded-xl border p-6"
+          className="overflow-hidden rounded-xl border border-border bg-card shadow-lifted"
         >
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <span className="font-mono text-sm font-medium">{domain}</span>
-            <span className="border-primary/40 text-primary rounded-full border px-3 py-1 font-mono text-xs">
-              dr {analysis?.domainRating ?? "—"}
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-hairline bg-surface px-6 py-4">
+            <IconCircleCheck
+              className="size-4 shrink-0 text-success"
+              aria-hidden="true"
+            />
+            <span className="text-[15px] font-semibold text-ink">{domain}</span>
+            <span className="rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-medium text-ink-secondary tabular-nums">
+              DR {analysis?.domainRating ?? "—"}
             </span>
-            <span className="text-muted-foreground flex items-center gap-1.5 text-xs">
+            <span className="flex items-center gap-1.5 text-xs text-ink-muted">
               <img
                 src="https://www.google.com/s2/favicons?domain=ahrefs.com&sz=32"
                 alt=""
@@ -181,13 +195,13 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
             <button
               type="button"
               onClick={resetToDomain}
-              className="text-muted-foreground hover:text-foreground ml-auto text-sm underline underline-offset-4"
+              className="ml-auto text-sm font-medium text-ink-secondary underline decoration-input underline-offset-4 transition-colors hover:text-ink"
             >
               Change domain
             </button>
           </div>
 
-          <div className="mt-6 grid gap-5">
+          <div className="grid gap-5 px-6 pt-6">
             <div>
               <Label htmlFor="niche">Niche</Label>
               <Combobox
@@ -198,7 +212,7 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
                 <ComboboxInput
                   id="niche"
                   placeholder="Search niches…"
-                  className="mt-2 h-9 w-full sm:max-w-xs"
+                  className="mt-2.5 w-full"
                 />
                 <ComboboxContent>
                   <ComboboxEmpty>No matching niche</ComboboxEmpty>
@@ -223,9 +237,9 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
                 placeholder="b2b link building, backlink outreach, seo for saas"
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
-                className="mt-2"
+                className="mt-2.5"
               />
-              <p className="text-muted-foreground mt-2 text-xs">
+              <p className="mt-2 text-xs text-ink-muted">
                 Separate with commas — these help members pick the right anchor
                 text for your links.
               </p>
@@ -239,28 +253,31 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
                 rows={4}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="mt-2"
+                className="mt-2.5"
               />
-              <p className="text-muted-foreground mt-2 font-mono text-xs">
-                {
-                  "// AI-generated from your homepage — your site name stays hidden. Edit freely"
-                }
+              <p className="mt-2 text-xs text-ink-muted">
+                AI-generated from your homepage — your site name stays hidden.
+                Edit freely.
               </p>
             </div>
           </div>
 
-          <div className="mt-6 flex flex-wrap items-center gap-4">
-            <Button type="submit" disabled={phase === "submitting"}>
+          <div className="mt-6 flex flex-wrap items-center gap-4 border-t border-hairline px-6 py-4">
+            <Button
+              type="submit"
+              disabled={phase === "submitting"}
+              className="h-11 px-5"
+            >
               {phase === "submitting" ? "Submitting…" : "Submit website"}
             </Button>
-            <span className="text-muted-foreground flex items-center gap-1.5 font-mono text-xs">
-              <IconLock className="size-3.5" />
-              hidden from members until you both agree
+            <span className="flex items-center gap-1.5 text-xs text-ink-muted">
+              <IconLock className="size-3.5" aria-hidden="true" />
+              Hidden from members until you both agree
             </span>
           </div>
         </form>
       )}
-      {error && <p className="text-destructive mt-3 text-sm">{error}</p>}
+      {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
 
       <Dialog
         open={submittedDomain !== null}
@@ -270,12 +287,12 @@ export function SubmitWebsiteForm({ memberId }: { memberId: string }) {
       >
         <DialogContent>
           <DialogHeader>
-            <p className="text-primary font-mono text-xs">{"// submitted"}</p>
+            <span className="mb-2 flex size-11 items-center justify-center rounded-lg bg-brand-tint text-brand-strong">
+              <IconCircleCheck className="size-5" aria-hidden="true" />
+            </span>
             <DialogTitle>Thanks for submitting!</DialogTitle>
             <DialogDescription>
-              <span className="text-foreground font-mono">
-                {submittedDomain}
-              </span>{" "}
+              <span className="font-semibold text-ink">{submittedDomain}</span>{" "}
               is now in the exchange. Expect new backlink opportunities in your
               inbox soon — we&apos;ll email you sites in your niche that are
               ready to swap.

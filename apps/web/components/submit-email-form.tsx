@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { IconArrowRight, IconMailCheck } from "@tabler/icons-react"
 import { z } from "zod"
 
 import { Button } from "@workspace/ui/components/button"
@@ -42,28 +43,36 @@ export function SubmitEmailForm() {
 
   if (status === "sent") {
     return (
-      <div className="border-border mt-10 w-full max-w-md rounded-xl border p-6">
-        <p className="text-primary font-mono text-xs">{"// email sent"}</p>
-        <h2 className="mt-3 text-lg font-semibold">Check your inbox</h2>
-        <p className="text-muted-foreground mt-2 leading-relaxed">
+      <div
+        role="status"
+        className="mt-8 w-full rounded-xl border border-border bg-card p-6 shadow-lifted"
+      >
+        <span className="flex size-11 items-center justify-center rounded-lg bg-brand-tint text-brand-strong">
+          <IconMailCheck className="size-5" aria-hidden="true" />
+        </span>
+        <h2 className="mt-4 font-heading text-xl font-bold tracking-[-0.01em] text-ink">
+          Check your inbox
+        </h2>
+        <p className="mt-1.5 text-[15px] leading-6 text-ink-secondary">
           We sent a verification link to{" "}
-          <span className="text-foreground font-medium">{email.trim()}</span>.
-          Click it to start adding your sites — it&apos;s valid for 24 hours.
+          <span className="font-semibold text-ink">{email.trim()}</span>. Click
+          it to start adding your sites — it&apos;s valid for 24 hours.
         </p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="text-muted-foreground hover:text-foreground mt-4 text-sm underline underline-offset-4"
+          className="mt-4 text-sm font-medium text-ink-secondary underline decoration-input underline-offset-4 transition-colors hover:text-ink"
         >
           Wrong address? Use a different email
         </button>
         {devVerifyUrl && (
-          <p className="mt-4">
+          <p className="mt-4 border-t border-hairline pt-4">
             <a
               href={devVerifyUrl}
-              className="text-primary font-mono text-xs underline underline-offset-4"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-brand-strong"
             >
-              {"// dev: simulate clicking the email link →"}
+              Dev only: simulate clicking the email link
+              <IconArrowRight className="size-3.5" aria-hidden="true" />
             </a>
           </p>
         )}
@@ -72,9 +81,9 @@ export function SubmitEmailForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="mt-10 w-full max-w-md">
+    <form onSubmit={handleSubmit} noValidate className="mt-8 w-full">
       <Label htmlFor="email">Your email</Label>
-      <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+      <div className="mt-2.5 flex flex-col gap-3">
         <Input
           id="email"
           name="email"
@@ -84,13 +93,22 @@ export function SubmitEmailForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           aria-invalid={error ? true : undefined}
-          className="sm:flex-1"
+          className="h-11"
         />
-        <Button type="submit" disabled={status === "sending"}>
+        <Button
+          type="submit"
+          size="lg"
+          disabled={status === "sending"}
+          className="w-full"
+        >
           {status === "sending" ? "Sending…" : "Send verification link"}
+          {status !== "sending" && <IconArrowRight data-icon="inline-end" />}
         </Button>
       </div>
-      {error && <p className="text-destructive mt-2 text-sm">{error}</p>}
+      {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
+      <p className="mt-3 text-center text-xs text-ink-muted">
+        Free forever · No password · Unsubscribe anytime
+      </p>
     </form>
   )
 }

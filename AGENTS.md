@@ -78,4 +78,5 @@ pnpm format     # Prettier write
 - Import shared UI from the workspace package: `import { Button } from "@workspace/ui/components/button"` (also `@workspace/ui/lib/*`, `@workspace/ui/hooks/*`, `@workspace/ui/globals.css`).
 - App-specific components live in `apps/web/components/`; only reusable primitives go in `packages/ui`.
 - Theming is handled by `next-themes` via `apps/web/components/theme-provider.tsx`.
+- **Visual design mirrors [mentiohunt.com](https://mentiohunt.com)** (Figtree headings + Inter body, warm neutrals, one blaze-orange accent). Use the tokens in `packages/ui/src/styles/globals.css` (`text-ink`, `text-ink-secondary`, `text-ink-muted`, `bg-surface`, `border-hairline`, `text-brand`, `bg-brand-tint`, `shadow-card`, …) instead of hardcoded hex values, and reuse the shared pieces: `SiteHeader`, `SiteFooter`, `SectionHeading`/`Eyebrow` (`components/section.tsx`), `FormPageShell` for form flows.
 - TypeScript everywhere; validate any user input (forms, API routes) with zod.

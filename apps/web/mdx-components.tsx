@@ -1,33 +1,62 @@
 import type { MDXComponents } from "mdx/types"
+import { isValidElement } from "react"
 import Link from "next/link"
 
 import { isMentiohuntUrl, mentiohuntUrl } from "@/lib/site"
 
+/** Flattens MDX heading children to plain text. */
+function textOf(node: React.ReactNode): string {
+  if (typeof node === "string" || typeof node === "number") return String(node)
+  if (Array.isArray(node)) return node.map(textOf).join("")
+  if (isValidElement<{ children?: React.ReactNode }>(node))
+    return textOf(node.props.children)
+  return ""
+}
+
+/** Stable anchor id for headings, used by the "On this page" sidebar. */
+function slugify(node: React.ReactNode) {
+  return textOf(node)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+}
+
+// Article typography mirrors Mentiohunt's comparison pages.
 const components: MDXComponents = {
   h2: ({ children }) => (
-    <h2 className="font-heading mt-12 text-2xl font-semibold tracking-tight sm:text-3xl">
+    <h2
+      id={slugify(children)}
+      className="mt-14 mb-5 scroll-mt-24 font-heading text-[1.7rem] leading-tight font-bold tracking-[-0.02em] text-ink first:mt-0"
+    >
       {children}
     </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="mt-8 text-lg font-semibold">{children}</h3>
+    <h3
+      id={slugify(children)}
+      className="mt-10 mb-3 scroll-mt-24 font-heading text-xl font-bold tracking-[-0.01em] text-ink"
+    >
+      {children}
+    </h3>
   ),
   p: ({ children }) => (
-    <p className="text-muted-foreground mt-4 leading-relaxed">{children}</p>
+    <p className="mt-5 text-[17px] leading-[1.75] text-foreground first:mt-0">
+      {children}
+    </p>
   ),
   ul: ({ children }) => (
-    <ul className="text-muted-foreground mt-4 list-disc space-y-2 pl-5 leading-relaxed">
+    <ul className="mt-5 list-disc space-y-2.5 pl-5 text-[17px] leading-[1.7] text-foreground marker:text-primary">
       {children}
     </ul>
   ),
   ol: ({ children }) => (
-    <ol className="text-muted-foreground mt-4 list-decimal space-y-2 pl-5 leading-relaxed">
+    <ol className="mt-5 list-decimal space-y-2.5 pl-5 text-[17px] leading-[1.7] text-foreground marker:font-semibold marker:text-ink-muted">
       {children}
     </ol>
   ),
-  li: ({ children }) => <li>{children}</li>,
+  li: ({ children }) => <li className="pl-1">{children}</li>,
   strong: ({ children }) => (
-    <strong className="text-foreground font-semibold">{children}</strong>
+    <strong className="font-semibold text-ink">{children}</strong>
   ),
   a: ({ href, children }) => {
     const external = href?.startsWith("http") ?? false
@@ -53,29 +82,36 @@ const components: MDXComponents = {
               : "noopener noreferrer"
             : undefined
         }
-        className="text-primary underline underline-offset-4"
+        className="font-medium [overflow-wrap:anywhere] text-ink underline decoration-primary/60 decoration-[1.5px] underline-offset-[3px] transition-colors hover:decoration-primary"
       >
         {children}
       </Link>
     )
   },
   table: ({ children }) => (
-    <div className="border-border mt-6 overflow-x-auto rounded-lg border">
-      <table className="w-full text-left text-sm">{children}</table>
+    <div className="my-6 w-full overflow-x-auto rounded-xl border border-border shadow-card">
+      <table className="w-full border-collapse text-left text-[0.9375rem] leading-[1.55]">
+        {children}
+      </table>
     </div>
   ),
   thead: ({ children }) => (
-    <thead className="bg-muted/30 border-border border-b">{children}</thead>
+    <thead className="border-b border-border bg-surface">{children}</thead>
+  ),
+  tr: ({ children }) => (
+    <tr className="border-b border-hairline transition-colors last:border-b-0 hover:bg-surface/60">
+      {children}
+    </tr>
   ),
   th: ({ children }) => (
-    <th className="px-4 py-3 font-medium">{children}</th>
+    <th className="px-4 py-3 align-middle text-sm font-semibold text-ink">
+      {children}
+    </th>
   ),
   td: ({ children }) => (
-    <td className="text-muted-foreground border-border border-t px-4 py-3">
-      {children}
-    </td>
+    <td className="p-4 align-top text-foreground">{children}</td>
   ),
-  hr: () => <hr className="border-border my-10" />,
+  hr: () => <hr className="my-10 border-hairline" />,
 }
 
 export function useMDXComponents(): MDXComponents {

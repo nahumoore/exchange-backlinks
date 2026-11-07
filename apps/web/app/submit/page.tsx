@@ -1,6 +1,12 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 
+import {
+  FormPageHeading,
+  FormPageShell,
+  Notice,
+  StepList,
+} from "@/components/form-page-shell"
+import { Eyebrow } from "@/components/section"
 import { SubmitEmailForm } from "@/components/submit-email-form"
 
 export const metadata: Metadata = {
@@ -12,38 +18,59 @@ export const metadata: Metadata = {
   },
 }
 
+const NEXT_STEPS = [
+  {
+    title: "Verify your email",
+    body: "Click the link we send you. One verified email can hold unlimited websites.",
+  },
+  {
+    title: "Add your sites",
+    body: "Domain, niche, and a few keywords. Your URL stays hidden from other members.",
+  },
+  {
+    title: "Get your weekly matches",
+    body: "One email a week with sites in your niche. Agree on a swap directly — on your terms.",
+  },
+]
+
 export default async function SubmitPage(props: PageProps<"/submit">) {
   const { error } = await props.searchParams
   const linkExpired = error === "expired"
 
   return (
-    <div className="flex min-h-svh flex-col">
-      <header className="mx-auto flex w-full max-w-5xl items-center px-6 py-5">
-        <Link href="/" className="font-mono text-sm font-medium tracking-tight">
-          exchange<span className="text-primary">-</span>backlinks.com
-        </Link>
-      </header>
-
-      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center px-6 py-16">
-        <p className="text-muted-foreground font-mono text-xs sm:text-sm">
-          {"// step 1 of 2 — verify your email"}
-        </p>
-        <h1 className="font-heading mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
-          Submit your site
-        </h1>
-        <p className="text-muted-foreground mt-4 max-w-xl leading-relaxed">
-          First, your email. We&apos;ll send you a verification link — one
-          verified email can hold unlimited websites, and your address is never
-          shown to other members.
-        </p>
-        {linkExpired && (
-          <p className="text-destructive mt-4 max-w-xl text-sm leading-relaxed">
-            That verification link expired. Enter your email and we&apos;ll
-            send a fresh one.
+    <FormPageShell
+      aside={
+        <div className="flex flex-col gap-3.5">
+          <Eyebrow>What happens next</Eyebrow>
+          <p className="font-heading text-[28px] leading-[1.15] font-bold tracking-[-0.02em] text-balance text-ink">
+            Two minutes to join.{" "}
+            <span className="text-ink-muted">One email a week after.</span>
           </p>
-        )}
-        <SubmitEmailForm />
-      </main>
-    </div>
+          <div className="mt-3">
+            <StepList steps={NEXT_STEPS} />
+          </div>
+        </div>
+      }
+    >
+      <FormPageHeading
+        eyebrow="Step 1 of 2 · Verify your email"
+        title={
+          <>
+            Submit your <span className="text-brand">site</span>
+          </>
+        }
+      >
+        First, your email. We&apos;ll send you a verification link — one
+        verified email can hold unlimited websites, and your address is never
+        shown to other members.
+      </FormPageHeading>
+      {linkExpired && (
+        <Notice className="mt-6">
+          That verification link expired. Enter your email and we&apos;ll send a
+          fresh one.
+        </Notice>
+      )}
+      <SubmitEmailForm />
+    </FormPageShell>
   )
 }
