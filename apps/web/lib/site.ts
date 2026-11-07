@@ -1,9 +1,11 @@
 export const SITE_URL = "https://exchange-backlinks.com"
 export const SITE_NAME = "Exchange Backlinks"
+// Leads with "backlink exchange" — the head term the homepage gets the most
+// Search Console impressions for ("backlink exchange", "backlinks exchange").
 export const SITE_TITLE =
-  "Exchange Backlinks — trade backlinks in your B2B niche"
+  "Free Backlink Exchange for B2B Sites — Exchange Backlinks"
 export const SITE_DESCRIPTION =
-  "A 100% free backlink exchange. Submit your site and a weekly email matches it with other B2B sites in your niche — you arrange the swap. No fees, no catch."
+  "A 100% free backlink exchange for B2B sites. Every week we match you with sites in your niche to trade links directly — no fees, no marketplace, no catch."
 export const GITHUB_URL = "https://github.com/nahumoore/exchange-backlinks"
 
 export const MENTIOHUNT_URL = "https://mentiohunt.com"

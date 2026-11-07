@@ -5,6 +5,7 @@ import {
   IconArrowsExchange,
   IconCircleCheck,
   IconFilter,
+  IconPlus,
   IconTarget,
 } from "@tabler/icons-react"
 
@@ -21,32 +22,18 @@ import {
 import { HeroBackdrop, SectionHeading } from "@/components/section"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
-import { GITHUB_URL, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site"
+import {
+  GITHUB_URL,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  mentiohuntUrl,
+} from "@/lib/site"
 
 export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-}
-
-const JSON_LD = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": `${SITE_URL}/#website`,
-      name: SITE_NAME,
-      url: SITE_URL,
-      description: SITE_DESCRIPTION,
-    },
-    {
-      "@type": "Organization",
-      "@id": `${SITE_URL}/#organization`,
-      name: SITE_NAME,
-      url: SITE_URL,
-      sameAs: [GITHUB_URL],
-    },
-  ],
 }
 
 const STEPS = [
@@ -91,6 +78,76 @@ const RULES = [
   },
 ] as const
 
+// Answers target the "backlink exchange" / "free link exchange" queries the
+// homepage already gets impressions for in Search Console.
+const FAQ = [
+  {
+    slug: "what",
+    question: "What is a backlink exchange?",
+    answer:
+      "A backlink exchange is when two websites agree to link to each other — one relevant link each. Exchange Backlinks makes that easy for B2B sites: you submit your site once, and every week we match it with other sites in the same niche so you can arrange the swap directly.",
+  },
+  {
+    slug: "free",
+    question: "Is Exchange Backlinks really free?",
+    answer:
+      "Yes. There are no fees, credits, paid tiers, or per-link charges, and no credit card is ever asked for. The project is open source, so you can read every line of code on GitHub.",
+  },
+  {
+    slug: "safe",
+    question: "Are link exchanges against Google's guidelines?",
+    answer:
+      "Google's spam policies target excessive link exchanges — swapping links at scale purely for cross-linking. An occasional, editorial link between two real sites in the same niche is normal on the web. That's why we only match same-niche sites, keep every swap one for one, and leave placement up to you so each link fits the content.",
+  },
+  {
+    slug: "matching",
+    question: "How are sites matched?",
+    answer:
+      "By B2B niche. Your site is only shared with members publishing in your topic, described by niche and Domain Rating with the URL hidden. Once both sides agree, URLs are revealed and you talk directly about where each link goes.",
+  },
+  {
+    slug: "vs-sites",
+    question: "How is this different from other free link exchange sites?",
+    answer:
+      "Most link exchange sites are open directories or credit marketplaces where anyone can trade with anyone. Here there's no marketplace, no credits, and no automated placements — just one weekly email with relevant sites in your niche, and you decide every link yourself.",
+  },
+  {
+    slug: "no-trade",
+    question: "What if I'd rather not trade links?",
+    answer:
+      "Mentiohunt, from the team behind this exchange, finds sites where your content genuinely belongs and runs the outreach for you — no reciprocal link needed.",
+  },
+] as const
+
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      sameAs: [GITHUB_URL],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${SITE_URL}/#faq`,
+      mainEntity: FAQ.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: { "@type": "Answer", text: item.answer },
+      })),
+    },
+  ],
+}
+
 const TRUST = [
   "100% free, no credit card",
   "Same-niche matches only",
@@ -111,18 +168,21 @@ export default function Page() {
         >
           <HeroBackdrop />
           <div className="relative mx-auto flex max-w-[760px] flex-col items-center text-center">
-            <p className="m-0 flex items-center gap-3.5 text-xs font-semibold tracking-[0.16em] text-ink-secondary uppercase">
+            {/* The eyebrow is the H1 on purpose: it carries the query this
+                page ranks for ("free backlink exchange"); the big slogan
+                is a visual headline only. */}
+            <h1
+              id="hero-title"
+              className="m-0 flex items-center gap-3.5 text-xs font-semibold tracking-[0.16em] text-ink-secondary uppercase"
+            >
               <span className="h-px w-8 bg-input" aria-hidden="true" />
               Free backlink exchange for B2B sites
               <span className="h-px w-8 bg-input" aria-hidden="true" />
-            </p>
-            <h1
-              id="hero-title"
-              className="mt-5 font-heading text-[40px] leading-[1.06] font-bold tracking-[-0.03em] text-balance text-ink sm:text-[56px] lg:text-[72px]"
-            >
+            </h1>
+            <p className="mt-5 font-heading text-[40px] leading-[1.06] font-bold tracking-[-0.03em] text-balance text-ink sm:text-[56px] lg:text-[72px]">
               Good backlinks are <span className="text-brand">traded</span>, not
               bought.
-            </h1>
+            </p>
             <p className="mt-5 max-w-[640px] text-lg leading-7 text-pretty text-ink-secondary">
               Submit your site and every week we share it with other B2B sites
               in your niche. You agree on a swap — one link each, on your terms.
@@ -285,6 +345,61 @@ export default function Page() {
                 </li>
               ))}
             </ul>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section
+          id="faq"
+          aria-labelledby="faq-title"
+          className="scroll-mt-[60px] px-4 pt-20 sm:px-6 sm:pt-28 lg:pt-32"
+        >
+          <div className="mx-auto grid max-w-[1120px] gap-10 lg:grid-cols-[minmax(0,22rem)_1fr] lg:gap-16">
+            <SectionHeading
+              id="faq-title"
+              eyebrow="FAQ"
+              title="Backlink exchange, answered."
+              description="What a free link exchange is, how matching works, and how to keep every swap safe for SEO."
+            />
+            <div className="flex flex-col border-t border-hairline">
+              {FAQ.map((item) => (
+                <details
+                  key={item.question}
+                  className="group border-b border-hairline py-5"
+                >
+                  <summary className="flex cursor-pointer list-none items-start justify-between gap-6 font-heading text-lg leading-snug font-semibold text-ink [&::-webkit-details-marker]:hidden">
+                    <h3>{item.question}</h3>
+                    <IconPlus
+                      className="mt-1 size-4 shrink-0 text-ink-muted transition-transform duration-200 group-open:rotate-45"
+                      aria-hidden="true"
+                    />
+                  </summary>
+                  <p className="mt-3 max-w-2xl text-[15px] leading-6 text-pretty text-ink-secondary">
+                    {item.answer}
+                    {item.slug === "no-trade" && (
+                      <>
+                        {" "}
+                        {/* No noreferrer on purpose: Mentiohunt needs the
+                            referrer + UTMs to attribute this traffic. */}
+                        {/* eslint-disable-next-line react/jsx-no-target-blank */}
+                        <a
+                          href={mentiohuntUrl({
+                            medium: "referral",
+                            campaign: "home_faq",
+                          })}
+                          target="_blank"
+                          rel="noopener"
+                          className="font-medium text-ink underline decoration-primary/60 decoration-[1.5px] underline-offset-[3px] hover:decoration-primary"
+                        >
+                          Try Mentiohunt
+                        </a>
+                        .
+                      </>
+                    )}
+                  </p>
+                </details>
+              ))}
+            </div>
           </div>
         </section>
       </main>
