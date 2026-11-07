@@ -1,6 +1,6 @@
 import { Resend } from "resend"
 
-import { SITE_NAME } from "@/lib/site"
+import { mentiohuntUrl, SITE_NAME } from "@/lib/site"
 
 // Until the domain is verified in Resend, onboarding@resend.dev only delivers
 // to the account owner's address — set RESEND_FROM once that's done.
@@ -16,6 +16,11 @@ function extractFromAddress(fromHeader: string) {
 // quiet footer line, matching the brand's primary color (rgb(255, 90, 31)).
 const MENTIOHUNT_FAVICON_URL =
   "https://www.google.com/s2/favicons?domain=mentiohunt.com&sz=64"
+
+const MENTIOHUNT_EMAIL_URL = mentiohuntUrl({
+  medium: "email",
+  campaign: "weekly_digest",
+})
 
 const MENTIOHUNT_FOOTER_HTML = `
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top: 32px; border-radius: 12px; background: rgb(255, 90, 31);">
@@ -36,12 +41,12 @@ const MENTIOHUNT_FOOTER_HTML = `
           on autopilot for B2B SaaS teams. We find prospects, run outreach,
           and land placements for you.
         </p>
-        <a href="https://mentiohunt.com" style="display: inline-block; background: #fff; color: rgb(255, 90, 31); font-weight: 600; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-size: 14px;">Try Mentiohunt →</a>
+        <a href="${MENTIOHUNT_EMAIL_URL}" style="display: inline-block; background: #fff; color: rgb(255, 90, 31); font-weight: 600; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-size: 14px;">Try Mentiohunt →</a>
       </td>
     </tr>
   </table>
 `
-const MENTIOHUNT_FOOTER_TEXT = `Mentiohunt — ${SITE_NAME} is built by the Mentiohunt team: backlink acquisition on autopilot for B2B SaaS teams. https://mentiohunt.com`
+const MENTIOHUNT_FOOTER_TEXT = `Mentiohunt — ${SITE_NAME} is built by the Mentiohunt team: backlink acquisition on autopilot for B2B SaaS teams. ${MENTIOHUNT_EMAIL_URL}`
 
 // Safety valve for testing the real send paths (digest matching, relay
 // forwarding) against real data without emailing real members. When on,

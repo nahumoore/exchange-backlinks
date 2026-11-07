@@ -2,7 +2,7 @@ import Link from "next/link"
 import { IconBrandGithub } from "@tabler/icons-react"
 
 import { ALTERNATIVES } from "@/lib/alternatives"
-import { GITHUB_URL } from "@/lib/site"
+import { GITHUB_URL, mentiohuntUrl } from "@/lib/site"
 
 export function SiteFooter({ currentSlug }: { currentSlug?: string }) {
   const links = ALTERNATIVES.filter((a) => a.slug !== currentSlug)
@@ -43,10 +43,13 @@ export function SiteFooter({ currentSlug }: { currentSlug?: string }) {
           </a>
           <span>
             built by the team behind{" "}
+            {/* No noreferrer on purpose: Mentiohunt needs the referrer +
+                UTMs to attribute this traffic. noopener still applies. */}
+            {/* eslint-disable-next-line react/jsx-no-target-blank */}
             <a
-              href="https://mentiohunt.com"
+              href={mentiohuntUrl({ medium: "referral", campaign: "footer" })}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener"
               className="text-primary underline underline-offset-4"
             >
               Mentiohunt

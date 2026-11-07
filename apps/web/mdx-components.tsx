@@ -1,6 +1,8 @@
 import type { MDXComponents } from "mdx/types"
 import Link from "next/link"
 
+import { isMentiohuntUrl, mentiohuntUrl } from "@/lib/site"
+
 const components: MDXComponents = {
   h2: ({ children }) => (
     <h2 className="font-heading mt-12 text-2xl font-semibold tracking-tight sm:text-3xl">
@@ -27,16 +29,36 @@ const components: MDXComponents = {
   strong: ({ children }) => (
     <strong className="text-foreground font-semibold">{children}</strong>
   ),
-  a: ({ href, children }) => (
-    <Link
-      href={href ?? "#"}
-      target={href?.startsWith("http") ? "_blank" : undefined}
-      rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
-      className="text-primary underline underline-offset-4"
-    >
-      {children}
-    </Link>
-  ),
+  a: ({ href, children }) => {
+    const external = href?.startsWith("http") ?? false
+    // Mentiohunt links get UTMs and keep the referrer so the traffic is
+    // attributable; other external links stay noreferrer.
+    const mentiohunt = href ? isMentiohuntUrl(href) : false
+    return (
+      <Link
+        href={
+          mentiohunt && href
+            ? mentiohuntUrl({
+                medium: "referral",
+                campaign: "content",
+                url: href,
+              })
+            : (href ?? "#")
+        }
+        target={external ? "_blank" : undefined}
+        rel={
+          external
+            ? mentiohunt
+              ? "noopener"
+              : "noopener noreferrer"
+            : undefined
+        }
+        className="text-primary underline underline-offset-4"
+      >
+        {children}
+      </Link>
+    )
+  },
   table: ({ children }) => (
     <div className="border-border mt-6 overflow-x-auto rounded-lg border">
       <table className="w-full text-left text-sm">{children}</table>

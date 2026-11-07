@@ -6,6 +6,15 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # exchange-backlinks.com
 
+## Language
+
+- **Everything in the project must be in English:** code, comments, identifiers, commit messages, PR descriptions, docs, and all user-facing copy (site, emails).
+- The user sometimes writes in Spanish. When they do, **reply to them in Spanish**. Their language only changes how you talk to them in chat; whatever you write into the project stays in English.
+
+## Main purpose
+
+**The main purpose of this project and the exchange-backlinks.com domain is to be a free service that works as a lead magnet for [Mentiohunt](https://mentiohunt.com).** Everything here exists to attract Mentiohunt's ideal customers with something genuinely useful and free, then send them to Mentiohunt.
+
 ## What this is
 
 A **100% free backlink exchange system** for SEOs, founders, and small marketing teams. Think "Help a B2B Writer" / HARO, but instead of journalist–source matching, it matches **sites in the same B2B niche** so they can exchange backlinks with each other.
@@ -15,6 +24,8 @@ This is an **open-source project**: https://github.com/nahumoore/exchange-backli
 **Business purpose:** this is a free lead magnet whose entire job is lead generation for [Mentiohunt](https://mentiohunt.com) — a paid SaaS ($49–99/mo) that puts backlink acquisition on autopilot for B2B SaaS teams (discovery, outreach, placement coordination). The exchange attracts the exact ICP (founder-led and lean B2B teams doing their own link building), then nudges them toward Mentiohunt.
 
 Keep that framing in mind for every product/copy decision: free, low-friction, genuinely useful — with tasteful Mentiohunt attribution/CTAs, never paywalls.
+
+**Mentiohunt links must be trackable:** never hardcode `https://mentiohunt.com` — build every link with `mentiohuntUrl({ medium, campaign })` from `apps/web/lib/site.ts` (adds `utm_source=exchange-backlinks` + medium/campaign UTMs), and never put `noreferrer` on them (use `rel="noopener"`), so the traffic shows up as attributable in Mentiohunt's analytics. MDX content links to mentiohunt.com are tagged automatically by `apps/web/mdx-components.tsx`.
 
 ## Product shape (v1)
 
