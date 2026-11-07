@@ -66,4 +66,4 @@ Issues and PRs are welcome. If you're proposing a product change (new pages, mat
 
 ## Who's behind this
 
-Built by the team behind [Mentiohunt](https://mentiohunt.com) — backlink acquisition on autopilot for B2B SaaS teams. The exchange is free forever; Mentiohunt is how we keep the lights on.
+Built by the team behind [Mentiohunt](https://mentiohunt.com/?utm_source=exchange-backlinks&utm_medium=referral&utm_campaign=github_readme) — backlink acquisition on autopilot for B2B SaaS teams. The exchange is free forever; Mentiohunt is how we keep the lights on.
