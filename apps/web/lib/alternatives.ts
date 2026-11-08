@@ -10,6 +10,11 @@ export type Alternative = {
   name: string
   category: string
   tagline: string
+  /**
+   * Optional name for the SEO title when people search the brand under
+   * another name too (e.g. "Featured.com (Terkel)"). Defaults to `name`.
+   */
+  searchName?: string
 }
 
 export const ALTERNATIVES: Alternative[] = [
@@ -76,6 +81,8 @@ export const ALTERNATIVES: Alternative[] = [
   {
     slug: "featured",
     name: "Featured.com",
+    // "terkel" alone gets ~260 US searches/mo (DataForSEO, 2026-11).
+    searchName: "Featured.com (Terkel)",
     category: "source-request platform",
     tagline:
       "Expert-quote marketplace (formerly Terkel) with free and paid tiers.",
@@ -115,5 +122,6 @@ export function getRelatedAlternatives(alternative: Alternative) {
  */
 export function alternativeTitle(alternative: Alternative) {
   const year = ALTERNATIVES_UPDATED.slice(0, 4)
-  return `Best ${alternative.name} Alternatives in ${year} (Free & Paid)`
+  const name = alternative.searchName ?? alternative.name
+  return `Best ${name} Alternatives in ${year} (Free & Paid)`
 }
