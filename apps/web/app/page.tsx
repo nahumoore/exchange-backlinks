@@ -126,6 +126,9 @@ const JSON_LD = {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       name: SITE_NAME,
+      // The brand is an exact-match domain for "exchange backlinks"; help
+      // Google tie every spelling of it to this site name.
+      alternateName: ["exchange-backlinks.com", "ExchangeBacklinks"],
       url: SITE_URL,
       description: SITE_DESCRIPTION,
     },

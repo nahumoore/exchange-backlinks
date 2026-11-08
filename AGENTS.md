@@ -80,3 +80,9 @@ pnpm format     # Prettier write
 - Theming is handled by `next-themes` via `apps/web/components/theme-provider.tsx`.
 - **Visual design mirrors [mentiohunt.com](https://mentiohunt.com)** (Figtree headings + Inter body, warm neutrals, one blaze-orange accent). Use the tokens in `packages/ui/src/styles/globals.css` (`text-ink`, `text-ink-secondary`, `text-ink-muted`, `bg-surface`, `border-hairline`, `text-brand`, `bg-brand-tint`, `shadow-card`, …) instead of hardcoded hex values, and reuse the shared pieces: `SiteHeader`, `SiteFooter`, `SectionHeading`/`Eyebrow` (`components/section.tsx`), `FormPageShell` for form flows.
 - TypeScript everywhere; validate any user input (forms, API routes) with zod.
+
+## SEO research
+
+- **Topical maps / content plans live in `docs/topical-maps/`** (see its README). Check them before creating new content pages, and update their status tables when pages ship.
+- **Google Search Console is the default data source** for SEO work (rankings, queries, pages, indexing) — use it freely.
+- **Never call DataForSEO (any `Data_for_SEO` tool) without the user's explicit consent in the current conversation.** It is a paid API. If keyword volume, difficulty, SERP or competitor data would help, say what you'd query and why, and wait for a yes before running anything.

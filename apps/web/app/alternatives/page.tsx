@@ -5,12 +5,36 @@ import { IconArrowRight, IconScale } from "@tabler/icons-react"
 import { JsonLd } from "@/components/json-ld"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
-import { ALTERNATIVES } from "@/lib/alternatives"
+import { ALTERNATIVES, ALTERNATIVES_UPDATED } from "@/lib/alternatives"
 import { SITE_NAME, SITE_URL } from "@/lib/site"
 
-const TITLE = "Free alternatives to backlink & link-building tools"
+// Search Console shows this page outranking the homepage for list-intent
+// queries ("backlink exchange free / sites / marketplace / platform"), so it
+// leads with "link exchange sites". The root layout's brand suffix stays on
+// purpose: the brand name is itself the keyword ("exchange backlinks").
+const YEAR = ALTERNATIVES_UPDATED.slice(0, 4)
+const TITLE = `Best Link Exchange Sites in ${YEAR}`
 const DESCRIPTION =
-  "Comparisons of paid backlink exchanges, AI content platforms, link marketplaces, and source-request tools — and why B2B teams switch to a free, direct exchange instead."
+  "The best link exchange sites and backlink exchange platforms, free and paid — exchange networks, AI content tools, link marketplaces, and source-request sites, compared honestly."
+
+const HOW_TO_CHOOSE = [
+  {
+    title: "Same niche, or don't bother",
+    body: "A link from a site in your topic is worth trading for. A link from an unrelated site is noise at best, and exactly the pattern Google's spam policies call out at worst.",
+  },
+  {
+    title: "See the partner before anything goes live",
+    body: "Prefer one-for-one swaps with a site you can vet. Credit pools and three-way schemes put your links on sites you never chose.",
+  },
+  {
+    title: "Keep control of placement",
+    body: "Editorial links placed where they help the reader age well. Tools that auto-insert links into generated articles trade control for convenience.",
+  },
+  {
+    title: "Know what you're paying for",
+    body: "Many link exchange sites are subscriptions or marketplaces with an exchange bolted on. Free should mean free: no credits, tiers, or per-link fees.",
+  },
+]
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -100,14 +124,25 @@ export default function AlternativesPage() {
           <div className="mx-auto max-w-[1120px]">
             <div className="flex items-center gap-2 text-xs font-semibold text-brand-strong">
               <IconScale className="size-4" aria-hidden="true" />
-              <span>Backlink tool alternatives</span>
+              <span>Link exchange sites & alternatives</span>
             </div>
             <h1 className="mt-4 max-w-4xl font-heading text-[40px] leading-[1.06] font-bold tracking-[-0.03em] text-balance text-ink sm:text-[52px]">
-              Free alternatives to paid backlink tools,{" "}
+              The best link exchange sites,{" "}
               <span className="text-brand">compared honestly.</span>
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-ink-muted">
-              {`${SITE_NAME} matches you directly with other B2B sites in your niche for a free, reciprocal backlink trade — no fees, no marketplace, no automated placements. Here's how it compares to the paid tools and free digests teams usually try first, including where they still win.`}
+              Backlink exchange platforms, AI content tools with a link exchange
+              bundled in, link marketplaces, and source-request sites — what
+              each one actually gives you, what it costs, and where it still
+              wins. {SITE_NAME} is the{" "}
+              <Link
+                href="/"
+                className="font-medium text-ink underline decoration-input underline-offset-4 transition-colors hover:decoration-current"
+              >
+                free backlink exchange
+              </Link>{" "}
+              that matches you directly with B2B sites in your niche: no fees,
+              no marketplace, no automated placements.
             </p>
           </div>
         </section>
@@ -158,6 +193,38 @@ export default function AlternativesPage() {
                 </div>
               </section>
             ))}
+
+            <section aria-labelledby="how-to-choose">
+              <h2
+                id="how-to-choose"
+                className="font-heading text-2xl font-bold tracking-[-0.02em] text-ink"
+              >
+                How to choose a link exchange site
+              </h2>
+              <p className="mt-3 max-w-2xl text-base leading-7 text-ink-muted">
+                Most link exchange sites look alike from the outside. These four
+                questions separate the ones worth your links from the ones that
+                put them at risk.
+              </p>
+              <ol className="mt-6 grid gap-5 sm:grid-cols-2">
+                {HOW_TO_CHOOSE.map((item, i) => (
+                  <li
+                    key={item.title}
+                    className="rounded-xl border border-border bg-card p-6 shadow-card"
+                  >
+                    <span className="text-xs font-semibold text-brand-strong">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="mt-2 font-heading text-lg font-semibold tracking-[-0.02em] text-ink">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-ink-muted">
+                      {item.body}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            </section>
           </div>
         </div>
       </main>
