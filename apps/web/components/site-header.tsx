@@ -13,6 +13,7 @@ const NAV = [
   { href: "/#how-it-works", label: "How it works" },
   { href: "/#house-rules", label: "House rules" },
   { href: "/alternatives", label: "Alternatives" },
+  { href: "/guides", label: "Guides" },
 ]
 
 const NAV_LINK =

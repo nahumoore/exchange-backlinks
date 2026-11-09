@@ -204,7 +204,13 @@ export default function AlternativesPage() {
               <p className="mt-3 max-w-2xl text-base leading-7 text-ink-muted">
                 Most link exchange sites look alike from the outside. These four
                 questions separate the ones worth your links from the ones that
-                put them at risk.
+                put them at risk. For where Google draws the line, read{" "}
+                <Link
+                  href="/guides/reciprocal-links"
+                  className="font-medium text-ink underline decoration-input underline-offset-4 transition-colors hover:decoration-current"
+                >
+                  are reciprocal links bad for SEO?
+                </Link>
               </p>
               <ol className="mt-6 grid gap-5 sm:grid-cols-2">
                 {HOW_TO_CHOOSE.map((item, i) => (
