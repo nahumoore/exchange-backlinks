@@ -1,0 +1,340 @@
+export const faq = [
+  {
+    question: "Do reciprocal links still work in 2026?",
+    answer:
+      "Natural ones work like any other good link. Links that exist only because of a swap are the ones Google says it tries to ignore, so as a deliberate tactic their value is limited. The benefit comes from partners whose links you'd want anyway.",
+  },
+  {
+    question: "Will Google penalize me for reciprocal links?",
+    answer:
+      "Not for a handful of natural ones. Google's stated default for exchanged links is to ignore them. A manual action becomes possible when exchanges make up most of your backlinks, and you'd see it in Search Console's Manual actions report.",
+  },
+  {
+    question: "Do reciprocal links cancel each other out?",
+    answer:
+      "No. Linking out doesn't subtract anything from the link you receive. What can happen is that Google discounts both links if it reads them as an exchange.",
+  },
+  {
+    question: "Are one-way links better than reciprocal links?",
+    answer:
+      "A one-way editorial link is the cleanest signal, because there's no question of a deal behind it. But a reciprocal link between two relevant sites isn't worse just because it goes both ways. The reason the link exists is what matters.",
+  },
+  {
+    question: "Is it OK to link back to a site that linked to me?",
+    answer:
+      "Yes, if the link helps your readers. John Mueller answered exactly this question in January 2022: \"That's perfectly fine. It's also kind of natural.\" Just don't make your link a condition of theirs, or theirs a condition of yours.",
+  },
+  {
+    question: "Can I link my own two sites to each other?",
+    answer:
+      "Yes, where it helps visitors: a product site linking to its docs, its blog, or its parent company is normal. Building a network of sites mainly to pass links between them is a link scheme.",
+  },
+  {
+    question: "Should reciprocal links be nofollow?",
+    answer:
+      'Natural ones don\'t need to be. If a link is part of an agreement (anything conditional or compensated), add rel="nofollow", or rel="sponsored" if money, goods, or services changed hands. That keeps it within Google\'s guidelines.',
+  },
+  {
+    question:
+      "Can an exchanged link point to an inner page instead of the homepage?",
+    answer:
+      "It can, and it usually should. A link to the specific page that helps the reader is more useful and more natural than a homepage link. It doesn't change whether the link is part of a deal, though.",
+  },
+  {
+    question: "Are link exchange platforms and communities safe to use?",
+    answer:
+      "It depends on what they do. Platforms that auto-insert links or run credit pools put your links on sites you never vetted, which is the pattern Google calls out. Communities and intros that connect you with relevant sites and leave every decision to you are only as risky as the links you choose to place.",
+  },
+  {
+    question: "What should I do with link exchange request emails?",
+    answer:
+      "Most can be ignored. If one comes from a relevant site, judge their page on its own merits: would you link to it without the swap? If yes, link to it, without agreeing to anything in return.",
+  },
+]
+
+Sooner or later, everyone doing their own link building runs into this. Someone offers a link swap, or you notice that a site you link to has linked back, and you start wondering whether Google will hold it against you. Most answers online boil down to "it depends," which doesn't help much when you have to reply to that email.
+
+So this guide does three things: it shows what Google has actually said, with dates and sources; it gives you a five-question test you can run on any link; and it walks through how B2B teams can work with relevant sites without stepping on the line.
+
+<Callout title="The short answer">
+
+- **Reciprocal links are normal.** Most sites that get search traffic have some, and Google has called two sites linking to each other "perfectly fine."
+- **The deal is the problem.** Google's spam policy names "excessive link exchanges": links that exist because of a "link to me and I'll link to you" arrangement.
+- **Exchanged links usually get ignored, not punished.** A manual action becomes possible when exchanges make up most of your backlinks.
+- **The safe version:** a few links with relevant peers, placed where they help readers, that you'd add even if they never linked back.
+
+</Callout>
+
+## What is a reciprocal link?
+
+A reciprocal link is when two sites link to each other: site A links to site B, and site B links back to site A. The term describes the pattern, not how it came about.
+
+In B2B it happens constantly without anyone planning it. A CRM links to the email tool it integrates with, and the email tool's integration docs link back. A SaaS company cites an industry report, and months later the report's author features that company as a case study. Nobody traded anything.
+
+### Natural reciprocity vs. a link exchange
+
+The same two links can be harmless or a problem depending on why they exist. If each link is there because it helps that site's readers, that's natural reciprocity. If the links are there because the two sites agreed to swap, it's a link exchange, and that's the pattern Google's spam policy is about.
+
+Google can't read your inbox, but it can see patterns: the same partners again and again, links that appear in pairs, pages built to hold swapped links. That's why the intent behind a link matters even though nobody can see it directly.
+
+### The link patterns you'll run into
+
+<LinkPatternsDiagram />
+
+| Pattern                  | How it works                                         | Risk                                                       |
+| ------------------------ | ---------------------------------------------------- | ---------------------------------------------------------- |
+| One-way (earned)         | B links to A, nothing comes back                     | None                                                       |
+| Natural reciprocal       | Both sites link because each link is useful, no deal | None                                                       |
+| Direct exchange (A ↔ B)  | "I'll link to you if you link to me"                 | Links may be ignored; a manual action is possible at scale |
+| Three-way (ABC) exchange | B links to A, A links to C, B and C share an owner   | Same as a direct exchange, plus it looks like hiding one   |
+| Partner or "links" page  | A page that exists to hold swapped links             | Named in Google's spam policy                              |
+| Paid or goods-for-links  | Money, products, or services in return for a link    | Link spam unless marked `sponsored` or `nofollow`          |
+
+## What Google actually says about reciprocal links
+
+Most articles on this topic paraphrase Google. Here are the statements themselves, in order.
+
+<Timeline>
+<TimelineItem date="January 22, 2020" who="John Mueller, Google, on Twitter" source="Reported by Search Engine Roundtable" href="https://www.seroundtable.com/google-reciprocal-links-28880.html">
+
+"Reciprocal links aren't necessarily bad." Replying to a question about recipe bloggers linking to each other, he said natural links between peers are fine, and that the link schemes played in that space are "pretty obvious to our systems."
+
+</TimelineItem>
+<TimelineItem date="July 9, 2021" who="John Mueller, Google Search Central office hours" source="Transcribed by Search Engine Roundtable" href="https://seroundtable.com/google-link-exchanges-against-guidelines-31733.html">
+
+Asked whether link exchanges are acceptable between topically relevant sites, he said a swap where both sides link to each other is "essentially against our webmaster guidelines." Google's algorithms would "try to ignore those links," and if they made up most of a site's links, Google "might apply manual action." On relevance: "It doesn't matter if it's like topically relevant."
+
+</TimelineItem>
+<TimelineItem date="January 28, 2022" who="John Mueller, Google Search Central office hours" source="Reported by Search Engine Journal" href="https://www.searchenginejournal.com/google-affirms-reciprocal-linking-is-natural-in-many-cases/435923/">
+
+Asked whether linking back to sites that link to you is a problem: "That's perfectly fine. It's also kind of natural." The caveat: "if you're not kind of making weird deals, behind the scenes, then I really wouldn't worry about it."
+
+</TimelineItem>
+<TimelineItem date="Today" who="Google Search spam policies" source="developers.google.com" href="https://developers.google.com/search/docs/essentials/spam-policies#link-spam">
+
+The link spam section lists "Excessive link exchanges ("Link to me and I'll link to you") or partner pages exclusively for the sake of cross-linking," next to buying links and "exchanging goods or services for links."
+
+</TimelineItem>
+</Timeline>
+
+<Figure
+  src="/guides/reciprocal-links/spam-policy-link-spam.webp"
+  alt="Google's spam policies, link spam section, with the bullet about excessive link exchanges and partner pages highlighted"
+  width={1406}
+  height={1160}
+  caption="The link spam section of Google's spam policies (excerpt; highlight added). Note the closing line: paid links are fine when they're qualified with nofollow or sponsored."
+  source="Google Search Central"
+  sourceHref="https://developers.google.com/search/docs/essentials/spam-policies#link-spam"
+/>
+
+Here's the July 2021 answer in Mueller's own words. The question starts at 9:28:
+
+<YouTube
+  id="bEeQfsYSzVM"
+  title="English Google SEO office-hours from July 9, 2021"
+  channel="Google Search Central"
+  start={568}
+  caption="Google Search Central office hours, July 9, 2021. The link exchange question starts at 9:28."
+/>
+
+Put together, the position is consistent. Google doesn't object to two sites linking to each other. It objects to links that only exist because of a deal, and in 2021 Mueller was explicit that being in the same niche doesn't change that.
+
+## Are reciprocal links bad for SEO?
+
+Not by themselves. But "not bad" isn't the same as "useful," and what happens to an exchanged link is worth understanding.
+
+### Exchanged links get ignored, not "penalized"
+
+Google's stated default is to try to ignore links it sees as part of an exchange. They don't hurt you, but they don't count either.
+
+A manual action is the exception, for sites where exchanges make up a large share of their links. If that happens, you'll find it in Search Console under **Security & Manual Actions → Manual actions**, usually as "Unnatural links to your site." The fix is to remove or qualify the offending links and file a reconsideration request. Most sites never see one.
+
+### What the data says (and how old it is)
+
+The most cited data is Ahrefs' reciprocal links study, last updated in 2020. Among more than 140,000 sites with at least 10,000 monthly organic visits, **73.6% had reciprocal links**. Among 112,440 pages ranking in Google's top 10, **43.7% had some**.
+
+Two caveats that most articles skip. First, the data predates 2020. Second, it shows correlation: sites that rank tend to have reciprocal links, which mostly tells you reciprocity is a normal byproduct of being an active site. It doesn't show that swapping links helped those sites rank. The study itself flags the survivorship bias.
+
+<YouTube
+  id="dON_kBewzAg"
+  title="Do Reciprocal Links Hurt Your SEO? (Link Building Study)"
+  channel="Ahrefs"
+  caption="Ahrefs' video walkthrough of its reciprocal links study."
+/>
+
+### The real cost is wasted effort
+
+If Google ignores links that exist because of a swap, then the hours spent finding partners and negotiating placements are what you actually lose. That's the honest reason to keep exchanges rare and selective. It isn't fear of a penalty. It's that an ignored link is worth exactly nothing.
+
+## The 5-question test: natural link or link scheme?
+
+Google gives no checklist, so here's ours. Run it on any link you're about to give or ask for.
+
+<QuestionCards
+  items={[
+    {
+      question: "Would you link to this page even if they never linked back?",
+      detail:
+        "If the answer is no, the link only exists because of the deal. That's the definition of an exchange.",
+    },
+    {
+      question: "Does the link help your reader at that exact spot?",
+      detail:
+        "A link in a paragraph about email deliverability that points to a great deliverability guide helps. The same site's homepage dropped into an unrelated post doesn't.",
+    },
+    {
+      question: "Is anything conditional?",
+      detail:
+        '"Only if you link back," deadlines, link-for-link accounting, or anything of value attached. Conditions are what turn a recommendation into a trade.',
+    },
+    {
+      question: "Would exchanges become a big share of your backlinks?",
+      detail:
+        "Mueller's warning was about exchanges making up most of a site's links. Keep them a small minority next to links you earned.",
+    },
+    {
+      question: "Is the link in editorial content?",
+      detail:
+        'Body copy, not footers, sidebars, sitewide blocks, or a "partners" page. The spam policy names partner pages built for cross-linking explicitly.',
+    },
+  ]}
+/>
+
+<Callout title="How to read the result">
+
+Questions 1 and 3 are the deal-breakers. If either one comes out wrong, don't place a normal followed link: skip it, or qualify it with `rel="nofollow"` (or `rel="sponsored"` if anything of value changed hands). Questions 2, 4, and 5 are about degree. One weak answer isn't fatal; several are a pattern.
+
+</Callout>
+
+## How many reciprocal links is too many?
+
+Google doesn't publish a number, and anyone quoting a "safe percentage" is guessing. (You'll see "under 10%" on some blogs. It's a rule of thumb, not Google guidance.) What Google has said is directional: exchanges shouldn't make up most of your links.
+
+In practice, these raise your risk more than any count does:
+
+- **Exchanges are your main source of new links.** If you stopped swapping, would you still be getting links?
+- **A sudden jump.** You normally pick up a handful of links a month, then dozens of reciprocal ones show up at once.
+- **Partners outside your niche,** or sites with no real audience.
+- **The same exact-match anchor text** on every swap.
+- **Sitewide placements:** footers, sidebars, blogrolls, and "partners" pages.
+
+## Are 3-way (ABC) link exchanges safer?
+
+A three-way (or ABC) exchange tries to hide the swap. Instead of B linking straight back to A, the owner of B and C gives A a link from site B and asks A to link to site C. There's no A ↔ B pair to spot, so the thinking goes that Google can't see the trade.
+
+It isn't safer, for three reasons:
+
+1. **It's still a deal.** The spam policy is about links that exist to manipulate rankings, not about the shape of the link graph.
+2. **The disguise is the tell.** You'd never need to hide a link you'd happily place anyway.
+3. **You usually get the worse end.** The "C" site offered in these deals is often a satellite site with little traffic of its own.
+
+Google hasn't published guidance on three-way exchanges specifically, so be wary of anyone who claims to know exactly how they're detected. The safe assumption is that they're treated like any other exchange.
+
+## How to exchange links safely (the B2B way)
+
+These are the principles. For the full process, from finding partners to tracking links after they go live, see our step-by-step guide to [link exchange in SEO](/guides/link-exchange-seo).
+
+### Pick partners you'd recommend anyway
+
+Before any link goes either way, check the other site the way you'd check a vendor:
+
+- **Same or adjacent B2B niche.** Their readers should plausibly be yours.
+- **A real audience.** Organic traffic that's stable or growing (free versions of Ahrefs or Semrush will show the trend), not just a high Domain Rating.
+- **Pages that rank for something relevant,** not a site that exists to sell links.
+- **No "write for us, link exchange available" pages,** and no outbound links to casino, loan, or CBD sites.
+- **A real team behind it:** named authors, an actual product, a company page.
+
+### Place links editorially
+
+Put the link in the body of a page where it helps the reader, with anchor text that fits the sentence. Brand names and plain descriptions are fine; the same keyword-rich anchor on every link isn't. Never use footers, sidebars, or a page of partner links.
+
+### Keep it occasional
+
+Treat links with peers as a supplement to links you earn with content, data, and relationships. If swaps start becoming your link building strategy, you're back in the pattern Google warns about.
+
+### When to use nofollow or sponsored
+
+If any condition or compensation is attached to a link, qualify it. Google's documentation recommends `rel="sponsored"` for paid placements and `rel="nofollow"` when no other value applies:
+
+<Figure
+  src="/guides/reciprocal-links/qualify-outbound-links.webp"
+  alt="Google's documentation of the rel sponsored and rel nofollow attribute values"
+  width={1720}
+  height={994}
+  caption="Google's guidance on qualifying outbound links (excerpt)."
+  source="Google Search Central"
+  sourceHref="https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links"
+/>
+
+A qualified link still sends referral traffic and puts your name in front of the right readers. In B2B, that's often the more valuable part anyway.
+
+### Where B2B reciprocity happens naturally
+
+The best reciprocal links are the ones nobody had to negotiate:
+
+- **Integration partners.** Each side documents the integration and links to the other.
+- **Customers and case studies.** You publish their story; they mention the tool they use.
+- **Co-marketing.** Joint webinars, reports, and templates credit both companies.
+- **Podcasts and guest appearances.** The show links to the guest, and the guest links to the episode.
+- **Expert quotes.** Answering journalist and writer requests through sites like [HARO](/alternatives/haro) or [Help a B2B Writer](/alternatives/help-a-b2b-writer) earns links without a swap.
+
+<GuideCta title="Meet relevant B2B sites, no strings attached">
+
+Our [free backlink exchange](/) sends you one weekly intro to B2B sites in your niche. What happens next is up to you, and the test above is how we'd decide.
+
+</GuideCta>
+
+## How to ask without sounding like link spam
+
+Most link exchange emails say some version of "I'll link to you if you link to me." That's almost word for word the example Google's spam policy uses for link spam, and it's also why most of those emails get deleted.
+
+A better pattern: lead with something useful you've already done, and don't make anything conditional.
+
+<EmailTemplate
+  subject="Cited your [topic] guide in our post on [topic]"
+  body={`Hi [First name],
+
+I'm [your name] from [company]. We just published [article title] and linked to your [page name] in the section on [subtopic], because it's the clearest explanation of [X] we found: [URL]
+
+No strings attached. If you ever write about [related topic], our [resource] covers [specific angle] and might be useful for your readers: [URL]
+
+Either way, thanks for putting the [page name] together.
+
+[Your name]`}
+/>
+
+Why it works: the link you gave isn't conditional, so there's no deal. The suggestion is specific and relevant, so it's easy to judge on its merits. And it's easy to ignore, which makes people far more likely to actually read it.
+
+Red flags in the requests you receive:
+
+- A generic greeting and "your amazing site," sent from a Gmail address
+- Their Domain Rating up front instead of a specific page
+- An offer to pay, or to link "from our partner site" (that's a three-way exchange)
+- A request for a homepage, footer, or "resources" page link
+- A target page that has nothing to do with your content
+
+## How to audit your existing reciprocal links
+
+You can do this with free tools in under an hour for most small B2B sites:
+
+1. **Export who links to you.** In Search Console, open **Links → Top linking sites** and export the list.
+2. **Export who you link to.** Crawl your site (Screaming Frog's free version handles 500 URLs) and export the external links, or list them by hand if your site is small.
+3. **Find the overlap.** Domains that appear in both lists are your reciprocal links.
+4. **Run each one through the 5-question test.** Then keep it, qualify it with `nofollow` or `sponsored`, or remove it. Partner pages, unrelated sites, and conditional deals are the ones to remove.
+
+What about the disavow tool? Google says most sites don't need it. Reach for it only if you have a manual action for unnatural links, or you know of a paid or scheme-built link profile you can't clean up any other way.
+
+## Alternatives to link exchanges
+
+If the goal is links that count, these earn them without a swap:
+
+- **Expert quotes** through source-request sites. See how [HARO](/alternatives/haro), [Featured.com](/alternatives/featured), and [Help a B2B Writer](/alternatives/help-a-b2b-writer) compare.
+- **Linkable assets:** original data, templates, calculators, and free tools people cite on their own.
+- **Integration and partner pages** that document how your product works with others.
+- **Digital PR** around something new you can show: a launch, a dataset, a strong opinion backed by numbers.
+
+For a side-by-side of the platforms people use to trade links, see our comparison of [link exchange sites](/alternatives). And if you'd rather have the outreach handled for you, [Mentiohunt](https://mentiohunt.com), built by the same team as Exchange Backlinks, finds sites where your content belongs and runs the outreach.
+
+## Frequently asked questions
+
+<Faq items={faq} />

@@ -10,6 +10,7 @@ import { Button } from "@workspace/ui/components/button"
 import { Logo } from "@/components/logo"
 import { Eyebrow } from "@/components/section"
 import { ALTERNATIVES } from "@/lib/alternatives"
+import { GUIDES } from "@/lib/guides"
 import { GITHUB_URL, mentiohuntUrl } from "@/lib/site"
 
 const PERKS = [
@@ -163,6 +164,21 @@ export function SiteFooter({
                 <IconBrandGithub className="size-3.5" aria-hidden="true" />
                 Star on GitHub
               </a>
+            </FooterNav>
+
+            <FooterNav label="Guides">
+              <Link href="/guides" className={FOOTER_LINK}>
+                All guides
+              </Link>
+              {GUIDES.map((guide) => (
+                <Link
+                  key={guide.slug}
+                  href={`/guides/${guide.slug}`}
+                  className={`${FOOTER_LINK} first-letter:uppercase`}
+                >
+                  {guide.title}
+                </Link>
+              ))}
             </FooterNav>
 
             <FooterNav label="Alternatives">

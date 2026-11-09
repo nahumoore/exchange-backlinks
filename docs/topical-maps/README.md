@@ -8,6 +8,7 @@ SEO content plans for exchange-backlinks.com. Each map groups the pages we want 
 - **One query, one page.** Before adding a page, check that no existing page (homepage, `/alternatives`, an `/alternatives/[slug]` page) already targets the same query. If one does, improve that page instead.
 - **Lean on the domain.** "exchange backlinks" is an exact-match domain, and the brand name _is_ the keyword. Use "Exchange Backlinks" consistently as the site name, link to the homepage with keyword-rich anchors, and earn brand mentions.
 - **Keep it honest.** Link exchanges sit close to Google's "excessive link exchanges" spam policy. Content explains the safe way to do it (same niche, one-for-one, editorial placement). We never promise rankings and never promote link schemes.
+- **Where content lives:** informational articles go in `/guides/[slug]` (`apps/web/lib/guides.ts` for metadata, `apps/web/content/guides/<slug>.mdx` for the body and its `faq` export). Outlines go in `outlines/<slug>.md`. Images go in `apps/web/public/guides/<slug>/` as WebP with a source credit in the caption; prefer original diagrams and screenshots of primary sources (e.g. Google's docs) over stock images, and never use images we don't have the right to.
 - **New maps:** add a file named `YYYY-MM-<topic>.md` and link it in the index below. Update the status column as pages ship.
 
 ## Index
@@ -42,12 +43,12 @@ SEO content plans for exchange-backlinks.com. Each map groups the pages we want 
 
 Each article links up to the homepage with the anchor "backlink exchange" or "free backlink exchange", and ends with a `/submit` CTA.
 
-| Planned page                                             | Target query                                                             | Vol.          | KD    | Status                 |
-| -------------------------------------------------------- | ------------------------------------------------------------------------ | ------------- | ----- | ---------------------- |
-| Reciprocal links: are they safe for SEO?                 | reciprocal links, reciprocal link exchange, link exchange google penalty | 110 + 40 + 10 | 1     | Planned                |
-| Link exchange in SEO: what it is and how to do it safely | link exchange seo, what is a link exchange                               | 90 + 30       | 3 / 9 | Planned                |
-| ABC (3-way) link exchange explained                      | abc link exchange, 3 way link exchange                                   | 20 + 10       | —     | Planned                |
-| Link exchange email templates                            | link exchange email template, link exchange outreach                     | —             | —     | Planned (GSC-only bet) |
+| Planned page                                             | Target query                                                             | Vol.          | KD    | Status                                                                         |
+| -------------------------------------------------------- | ------------------------------------------------------------------------ | ------------- | ----- | ------------------------------------------------------------------------------ |
+| Reciprocal links: are they safe for SEO?                 | reciprocal links, reciprocal link exchange, link exchange google penalty | 110 + 40 + 10 | 1     | Written 2026-11-08: [`/guides/reciprocal-links`](outlines/reciprocal-links.md) |
+| Link exchange in SEO: what it is and how to do it safely | link exchange seo, what is a link exchange                               | 90 + 30       | 3 / 9 | Written 2026-11-09: `/guides/link-exchange-seo`                                |
+| ABC (3-way) link exchange explained                      | abc link exchange, 3 way link exchange                                   | 20 + 10       | —     | Planned                                                                        |
+| Link exchange email templates                            | link exchange email template, link exchange outreach                     | —             | —     | Planned (GSC-only bet)                                                         |
 
 ### Cluster 2: Source-request platform alternatives (most demand, low KD)
 

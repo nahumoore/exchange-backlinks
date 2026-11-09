@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next"
 
 import { ALTERNATIVES, ALTERNATIVES_UPDATED } from "@/lib/alternatives"
+import { GUIDES } from "@/lib/guides"
 import { SITE_URL } from "@/lib/site"
 
 // Bump when the homepage or /submit copy changes meaningfully.
@@ -31,6 +32,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: ALTERNATIVES_UPDATED,
       changeFrequency: "monthly" as const,
       priority: 0.6,
+    })),
+    {
+      url: `${SITE_URL}/guides`,
+      // The index changes whenever a guide is added or revised.
+      lastModified: GUIDES.map((g) => g.updated)
+        .sort()
+        .at(-1),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    ...GUIDES.map((guide) => ({
+      url: `${SITE_URL}/guides/${guide.slug}`,
+      lastModified: guide.updated,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
     })),
   ]
 }
