@@ -2,6 +2,22 @@ import type { MDXComponents } from "mdx/types"
 import { isValidElement } from "react"
 import Link from "next/link"
 
+import {
+  Callout,
+  EmailTemplate,
+  Faq,
+  Figure,
+  GuideCta,
+  QuestionCards,
+  Timeline,
+  TimelineItem,
+} from "@/components/guides/article-blocks"
+import {
+  ExchangeProcessDiagram,
+  ExchangeTypesDiagram,
+} from "@/components/guides/exchange-diagrams"
+import { LinkPatternsDiagram } from "@/components/guides/link-patterns-diagram"
+import { YouTube } from "@/components/guides/youtube-embed"
 import { isMentiohuntUrl, mentiohuntUrl } from "@/lib/site"
 
 /** Flattens MDX heading children to plain text. */
@@ -112,6 +128,29 @@ const components: MDXComponents = {
     <td className="p-4 align-top text-foreground">{children}</td>
   ),
   hr: () => <hr className="my-10 border-hairline" />,
+  code: ({ children }) => (
+    <code className="rounded-md border border-hairline bg-surface px-1.5 py-0.5 font-mono text-[0.875em] text-ink">
+      {children}
+    </code>
+  ),
+  blockquote: ({ children }) => (
+    <blockquote className="my-6 border-l-[3px] border-brand pl-5 text-ink-secondary italic [&>p:first-child]:mt-0">
+      {children}
+    </blockquote>
+  ),
+  // Guide building blocks (components/guides/), usable without imports.
+  Callout,
+  EmailTemplate,
+  Faq,
+  ExchangeProcessDiagram,
+  ExchangeTypesDiagram,
+  Figure,
+  GuideCta,
+  LinkPatternsDiagram,
+  QuestionCards,
+  Timeline,
+  TimelineItem,
+  YouTube,
 }
 
 export function useMDXComponents(): MDXComponents {

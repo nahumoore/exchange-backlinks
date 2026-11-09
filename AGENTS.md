@@ -83,6 +83,6 @@ pnpm format     # Prettier write
 
 ## SEO research
 
-- **Topical maps / content plans live in `docs/topical-maps/`** (see its README). Check them before creating new content pages, and update their status tables when pages ship.
+- **Topical maps / content plans live in `docs/topical-maps/`** (see its README). Informational articles are `/guides/[slug]`: metadata in `apps/web/lib/guides.ts`, body in `apps/web/content/guides/<slug>.mdx`, authors in `apps/web/lib/authors.ts`, and the MDX building blocks (Figure, YouTube, Callout, Faq, …) in `apps/web/components/guides/`. Check them before creating new content pages, and update their status tables when pages ship.
 - **Google Search Console is the default data source** for SEO work (rankings, queries, pages, indexing) — use it freely.
 - **Never call DataForSEO (any `Data_for_SEO` tool) without the user's explicit consent in the current conversation.** It is a paid API. If keyword volume, difficulty, SERP or competitor data would help, say what you'd query and why, and wait for a yes before running anything.
